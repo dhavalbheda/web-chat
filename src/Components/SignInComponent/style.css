@@ -1,0 +1,35 @@
+body {
+    background-image: url(./../Utils/images/main-bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.container {
+    min-width: 100%;
+}
+
+.login-form {
+    background-color: rgb(0 19 34 / 82%);
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+label{
+    font-size: 20px !important;
+    color: white;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+form img {
+    width: 15vh;
+    margin: 5px auto;
+}
+
+.form-group {
+    margin-bottom: 0rem;
+}
