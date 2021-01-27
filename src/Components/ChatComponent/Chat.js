@@ -31,19 +31,21 @@ const Chat = (props) => {
   
   const selectFriend = (friend) => {
     setStartChat(true);
-    setSelectedFriend(friend);
+    setSelectedFriend(friend);    
     dispatch(getConversation({
       sender: user.uid,
       receiver: friend.uid}));
-  }
+    }
 
   const sendMessage = () => {
+    setText('');
     const data = {
       sender: user.uid,
       receiver: selectedFriend.uid,
       message: text
     }
     dispatch(saveMessage(data));
+    dispatch(getConversation({sender: user.uid, receiver: selectedFriend.uid}));
   }
   return(
         <Fragment>
@@ -60,9 +62,11 @@ const Chat = (props) => {
                     {
                       startChat && 
                       conversation.map((item, key) => {
-                       return <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
+                        return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
+                        ? <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
                                 <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}</p>
                               </div>
+                        : <Fragment key={key}></Fragment>
                       })
                     }
                 </div>
@@ -88,7 +92,7 @@ const LoadFriends = ({friends, selectFriend}) => {
   return friends.map((friend, index) => 
     <div key={index} className="displayName" onClick = {() => selectFriend(friend)}>
       <div className="displayPic">
-          <img src="https://i.pinimg.com/originals/be/ac/96/beac96b8e13d2198fd4bb1d5ef56cdcf.jpg" alt="" />
+          <img src="https://i.pinimg.com/originals/86/63/78/866378ef5afbe8121b2bcd57aa4fb061.jpg" alt="" />
       </div>
       <div style={{display: 'flex', flex: 1, justifyContent: 'space-between', margin: '0 10px'}}>
           <span style={{fontWeight: 500}}>{friend.firstName + " " + friend.lastName}</span>

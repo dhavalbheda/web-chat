@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './style.css'
 import { logoutUser } from './../../Redux/User/UserActions';
 

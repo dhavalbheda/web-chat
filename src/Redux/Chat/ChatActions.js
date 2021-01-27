@@ -1,7 +1,6 @@
-import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, SET_CONVERSATION } from './ActionType'
+import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION } from './ActionType'
 import firebase from './../../config/firebaseConfig';
 const db = firebase.firestore();
-const auth = firebase.auth();
 
 // =========> All The Action Types 
 // Chat Request
@@ -28,6 +27,13 @@ export const chatError = (error=null) => {
     }
 }
 
+export const requestConversation = (data = null) => 
+{
+    return {
+        type: REQUEST_CONVERSATION,
+        payload: data
+    }
+}
 export const setConversation = (data = null) => {
     return {
         type: SET_CONVERSATION,
@@ -91,6 +97,8 @@ export const saveMessage = ({sender, receiver, message}) => {
 // Get Conversation
 export const getConversation = ({sender, receiver}) => {
     return async dispatch => {
+        console.log(receiver);
+        dispatch(requestConversation());
         db.collection('conversation')
         .where('sender', 'in', [sender, receiver])
         .orderBy('createdAt', 'asc')
