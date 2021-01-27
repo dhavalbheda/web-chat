@@ -14,8 +14,8 @@ import Alert from '../Layout/Alert';
 
 const SignIn = () => {
     const { userAlert, authenticated } = useSelector(state => state.User);
-    const [email, setEmail] = useState('1dhavalbhedadb@gmail.com');
-    const [password, setPassword] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
     const onsubmit = (e) => {
