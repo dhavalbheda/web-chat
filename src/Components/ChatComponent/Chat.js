@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFriends } from '../../Redux/Chat/ChatActions';
+import { getAllFriends, getConversation, saveMessage } from '../../Redux/Chat/ChatActions';
 import Header from '../Header/Header'
 import './style.css';
 
@@ -10,10 +10,12 @@ import './style.css';
 **/
 
 const Chat = (props) => {
-  const { user } = useSelector(state => state.User)
+  const { user } = useSelector(state => state.User);
+  const { conversation } = useSelector(state => state.Chat);
   const { friends } = useSelector(state => state.Chat);
   const [startChat, setStartChat] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState({});
+  const [text, setText] = useState('');
   const dispatch = useDispatch();
   let unsubsribe;
 
@@ -27,11 +29,21 @@ const Chat = (props) => {
     return () => unsubsribe.then(f => f()).catch(error => console.log(error));
   }, []);
   
-
   const selectFriend = (friend) => {
     setStartChat(true);
     setSelectedFriend(friend);
-    console.log();
+    dispatch(getConversation({
+      sender: user.uid,
+      receiver: friend.uid}));
+  }
+
+  const sendMessage = () => {
+    const data = {
+      sender: user.uid,
+      receiver: selectedFriend.uid,
+      message: text
+    }
+    dispatch(saveMessage(data));
   }
   return(
         <Fragment>
@@ -46,17 +58,22 @@ const Chat = (props) => {
                 </div>
                 <div className="messageSections">
                     {
-                      startChat &&
-                        <div style={{ textAlign: 'left' }}>
-                          <p className="messageStyle" >Hello User</p>
-                        </div>
+                      startChat && 
+                      conversation.map((item, key) => {
+                       return <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
+                                <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}</p>
+                              </div>
+                      })
                     }
                 </div>
                 <div className="chatControls">
                   {
-                    false && <Fragment>
-                        <textarea />
-                      <button>Send</button>
+                    startChat && <Fragment>
+                        <textarea
+                            placeholder = 'Enter Text...'
+                            value = {text}
+                            onChange = {e => setText(e.target.value)}></textarea>
+                      <button onClick={sendMessage}>Send</button>
                     </Fragment>
                   }
                     
