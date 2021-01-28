@@ -95,22 +95,26 @@ export const saveMessage = ({sender, receiver, message}) => {
 }
 
 // Get Conversation
-export const getConversation = ({sender, receiver}) => {
+export const getConversation = ({sender, receiver}, tabChange = false, friendId) => {
+    let conversations = [];
+    const receiverNew = receiver;
     return async dispatch => {
-        console.log(receiver);
         dispatch(requestConversation());
-        db.collection('conversation')
+        await db.collection('conversation')
         .where('sender', 'in', [sender, receiver])
         .orderBy('createdAt', 'asc')
         .onSnapshot(querySnapshot => {
-            const conversations = [];
             querySnapshot.forEach(doc => {
                 if((doc.data().sender === sender && doc.data().receiver === receiver) || (doc.data().sender === receiver && doc.data().receiver === sender))
-                {
+                {                    
                     conversations.push(doc.data())
                 }
-            });
-            dispatch(setConversation(conversations));
+            })
+            console.log(receiverNew);
+            if(tabChange) {
+                dispatch(setConversation(conversations));
+                tabChange = false;
+            }
         })
     }   
 }

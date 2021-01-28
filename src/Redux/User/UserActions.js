@@ -1,4 +1,4 @@
-import  { USER_FETCH_REQUEST, USER_FETCH_ERROR, USER_FETCH_SUCCESS, SET_ALERT, REMOVE_ALERT, USER_LOG_OUT } from './ActionType'
+import  { USER_FETCH_REQUEST, USER_FETCH_ERROR, USER_FETCH_SUCCESS, SET_ALERT, REMOVE_ALERT, USER_LOG_OUT, TAB_CHANGE } from './ActionType'
 import firebase from './../../config/firebaseConfig';
 const db =firebase.firestore();
 const auth = firebase.auth();
@@ -31,7 +31,12 @@ export const reqLogOut = () => {
         payload: null
     }
 }
-
+export const setTabChange = (data) => {
+    return {
+        type: TAB_CHANGE,
+        payload: data
+    }
+}
 export const setAlert = (data) => {
     return {
         type: SET_ALERT,
@@ -183,4 +188,12 @@ export const logoutUser = (uid) => {
         })
         
     }
+}
+
+export const userTabChange = (uid, friendId) => {
+  return async dispatch => db.collection('users').doc(uid)
+        .update({currentTab: friendId})
+        .then(() => {
+            dispatch(setTabChange(friendId));
+        })
 }

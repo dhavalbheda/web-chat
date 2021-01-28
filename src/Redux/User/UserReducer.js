@@ -1,8 +1,9 @@
-import  { USER_FETCH_REQUEST, USER_FETCH_ERROR, USER_FETCH_SUCCESS, USER_LOG_OUT, SET_ALERT, REMOVE_ALERT } from './ActionType'
+import  { USER_FETCH_REQUEST, USER_FETCH_ERROR, USER_FETCH_SUCCESS, USER_LOG_OUT, SET_ALERT, REMOVE_ALERT, TAB_CHANGE } from './ActionType'
 
 const initialState = {
     user:{},
     authenticated:false,
+    currentTab: null,
     loadding: false,
     userAlert: null
 }
@@ -29,6 +30,11 @@ const UserReducer = (state = initialState, action) => {
                 user:{},
                 loadding: false,
                 authenticated: false
+            }
+        case TAB_CHANGE:
+            return {
+                ...state,
+                currentTab: payload
             }
         case SET_ALERT:
             return {

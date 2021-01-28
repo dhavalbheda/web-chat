@@ -18,7 +18,6 @@ const Chat = (props) => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
   let unsubsribe;
-
   useEffect(() => {
       unsubsribe = dispatch(getAllFriends(user.uid))
       .then(unsubscribeMehod => unsubscribeMehod)
@@ -34,7 +33,7 @@ const Chat = (props) => {
     setSelectedFriend(friend);    
     dispatch(getConversation({
       sender: user.uid,
-      receiver: friend.uid}));
+      receiver: friend.uid}, true, friend.uid));
     }
 
   const sendMessage = () => {
@@ -45,7 +44,8 @@ const Chat = (props) => {
       message: text
     }
     dispatch(saveMessage(data));
-    dispatch(getConversation({sender: user.uid, receiver: selectedFriend.uid}));
+ 
+    dispatch(getConversation({sender: user.uid, receiver: selectedFriend.uid}, true, selectedFriend.uid));
   }
   return(
         <Fragment>
