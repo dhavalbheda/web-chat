@@ -85,7 +85,7 @@ export const saveMessage = ({sender, receiver, message}) => {
             receiver,
             message,
             isSeen: false,
-            createdAt: new Date()
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(data => {
             console.log(data);
