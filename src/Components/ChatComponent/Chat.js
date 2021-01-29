@@ -30,10 +30,12 @@ const Chat = (props) => {
   
   const selectFriend = (friend) => {
     setStartChat(true);
-    setSelectedFriend(friend);    
+    
+    setSelectedFriend(friend);  
+    window.receiver = friend.uid;  
     dispatch(getConversation({
       sender: user.uid,
-      receiver: friend.uid}, true, friend.uid));
+      receiver: friend.uid}));
     }
 
   const sendMessage = () => {
@@ -43,9 +45,9 @@ const Chat = (props) => {
       receiver: selectedFriend.uid,
       message: text
     }
+    window.receiver = selectedFriend.uid;
     dispatch(saveMessage(data));
- 
-    dispatch(getConversation({sender: user.uid, receiver: selectedFriend.uid}, true, selectedFriend.uid));
+    dispatch(getConversation({sender: user.uid, receiver: selectedFriend.uid}));
   }
   return(
         <Fragment>
