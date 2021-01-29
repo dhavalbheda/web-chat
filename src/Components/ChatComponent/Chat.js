@@ -66,7 +66,7 @@ const Chat = (props) => {
                       conversation.map((item, key) => {
                         return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
                         ? <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
-                                <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}</p>
+                                <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message + "<br/>" + item.createdAt}</p>
                               </div>
                         : <Fragment key={key}></Fragment>
                       })
