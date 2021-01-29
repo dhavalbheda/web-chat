@@ -101,3 +101,8 @@
 .right-message {
     background: #3dec44;
 }
+
+.message-time {
+    font-size: 12px;
+    color: blue;
+}
