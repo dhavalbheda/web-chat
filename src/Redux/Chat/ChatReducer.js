@@ -36,7 +36,7 @@ const ChatReducer = (state = initialState, action) => {
         case SET_CONVERSATION:
             return {
                 ...state,
-                conversation: payload,
+                conversation: [...state.conversation, payload],
                 loadding: false
             }
         case CHAT_SET_ALERT:

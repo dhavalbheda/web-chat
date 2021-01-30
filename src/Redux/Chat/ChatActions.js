@@ -79,44 +79,25 @@ export const getAllFriends = (uid) => {
 
 // Send Message
 export const saveMessage = ({sender, receiver, message}) => {
-    return async dispatch => {
-        
-        const conversion = db.collection('conversation');
-        conversion.add({
-            sender,
-            receiver,
-            message,
-            isSeen: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        })
-        .then(data => {
-            rdb.ref().child(sender+receiver).push().set({
-                sender,
-                receiver,
-                message,
-                isSeen: false,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-        })
-        .catch(error => console.log(error));
-    }
+    rdb.ref().child(sender + "-" + receiver).push().set({
+        sender,
+        receiver,
+        message,
+        isSeen: false,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+    })
 }
 
 // Get Conversation
 export const getConversation = ({sender, receiver}) => {
     return async dispatch => {
         dispatch(requestConversation());
-        await db.collection('conversation')
-        .orderBy('createdAt', 'asc')
-        .onSnapshot(querySnapshot => {
-            let conversations = [];
-            querySnapshot.forEach(doc => {
-                if((doc.data().sender === sender && doc.data().receiver === window.receiver) || (doc.data().sender === window.receiver && doc.data().receiver === sender))
-                {                    
-                    conversations.push(doc.data())
-                }
-            })
-            dispatch(setConversation(conversations));
+        rdb.ref().child(sender + "-" + receiver).on('child_added', snap => {
+           dispatch(setConversation(snap.val()));
+           console.log(snap.val());
+        })
+        rdb.ref().child(receiver + "-" + sender).on('child_added', snap => {
+            dispatch(setConversation(snap.val()));
         })
     }   
 }

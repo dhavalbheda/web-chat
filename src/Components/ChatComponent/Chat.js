@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllFriends, getConversation, saveMessage } from '../../Redux/Chat/ChatActions';
 import Header from '../Header/Header'
 import './style.css';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 /**
 * @author DhavalBheda
@@ -47,7 +48,6 @@ const Chat = (props) => {
     }
     window.receiver = selectedFriend.uid;
     dispatch(saveMessage(data));
-    dispatch(getConversation({sender: user.uid, receiver: selectedFriend.uid}));
   }
   return(
         <Fragment>
@@ -60,25 +60,11 @@ const Chat = (props) => {
                 <div className="chatHeader"> 
                   {startChat && selectedFriend.firstName + " " + selectedFriend.lastName}
                 </div>
-                <div className="messageSections">
+                <ScrollToBottom className="messageSections">
                     {
-                      startChat && 
-                      conversation.map((item, key) => {
-                        let createdAt = undefined;
-                        if(item.createdAt != null) {
-                          let options = { weekday: 'short', day: 'numeric', month: 'numeric'};
-                          createdAt = new Date(item.createdAt.toDate()).toLocaleString('en', options);
-                          createdAt += " " + new Date(item.createdAt.toDate()).toLocaleTimeString([], {timeStyle: 'short'});
-                        }
-                        return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
-                        ?   <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
-                                <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/><span className="message-time">{createdAt? createdAt : ''}</span></p>
-                            </div>
-                        : <Fragment key={key}></Fragment>
-                        
-                      })
+                      startChat && <ChatComponent conversation = {conversation} selectedFriend = {selectedFriend} user = {user}  />
                     }
-                </div>
+                </ScrollToBottom>
                 <div className="chatControls">
                   {
                     startChat && <Fragment>
@@ -109,6 +95,29 @@ const LoadFriends = ({friends, selectFriend}) => {
       </div>
     </div>
   )
+}
+
+const ChatComponent = ({conversation, selectedFriend, user}) => {
+  
+  const sortCoversation = (data2) => {
+    let data = data2;
+    data.sort((a, b) => a.createdAt - b.createdAt);
+  }
+
+  sortCoversation(conversation)
+  return conversation.map((item, key) => {
+    let createdAt = undefined;
+    if(item.createdAt != null) {
+      let options = { weekday: 'short', day: 'numeric', month: 'numeric'};
+      createdAt = new Date(item.createdAt).toLocaleString('en', options);
+      createdAt += " " + new Date(item.createdAt).toLocaleTimeString([], {timeStyle: 'short'});
+    }
+    return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
+    ? <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
+            <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/><span className="message-time">{createdAt? createdAt : ''}</span></p>
+      </div>
+    : <Fragment key={key}></Fragment>
+  })
 }
 
 
