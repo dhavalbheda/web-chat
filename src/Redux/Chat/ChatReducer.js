@@ -1,4 +1,4 @@
-import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION } from './ActionType'
+import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION, UPDATE_CONVERSATION } from './ActionType'
 
 const initialState = {
     friends:[],
@@ -37,6 +37,13 @@ const ChatReducer = (state = initialState, action) => {
             return {
                 ...state,
                 conversation: [...state.conversation, payload],
+                loadding: false
+            }
+        case UPDATE_CONVERSATION:
+            let conversation = state.conversation.filter(item => item.uuid !== payload.uuid);
+            return {
+                ...state,
+                conversation: [...conversation, payload],
                 loadding: false
             }
         case CHAT_SET_ALERT:

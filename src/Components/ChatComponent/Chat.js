@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFriends, getConversation, saveMessage } from '../../Redux/Chat/ChatActions';
+import { v4 as uuidv4 } from 'uuid';
+import { getAllFriends, getConversation, removeLister, saveMessage } from '../../Redux/Chat/ChatActions';
 import Header from '../Header/Header'
 import './style.css';
 import ScrollToBottom from 'react-scroll-to-bottom';
@@ -18,36 +19,37 @@ const Chat = (props) => {
   const [selectedFriend, setSelectedFriend] = useState({});
   const [text, setText] = useState('');
   const dispatch = useDispatch();
-  let unsubsribe;
+  let unsubscribe;
   useEffect(() => {
-      unsubsribe = dispatch(getAllFriends(user.uid))
+      unsubscribe = dispatch(getAllFriends(user.uid))
       .then(unsubscribeMehod => unsubscribeMehod)
       .catch(error => console.log(error))
   }, [])
 
   useEffect(() => {
-    return () => unsubsribe.then(f => f()).catch(error => console.log(error));
-  }, []);
+    return () => removeLister(user.uid, selectedFriend.uid);
+  }, [selectedFriend]);
   
+
   const selectFriend = (friend) => {
+    if(selectedFriend && selectedFriend.uid === friend.uid)
+      return;
     setStartChat(true);
-    
     setSelectedFriend(friend);  
-    window.receiver = friend.uid;  
     dispatch(getConversation({
-      sender: user.uid,
-      receiver: friend.uid}));
-    }
+        sender: user.uid,
+        receiver: friend.uid}))
+  }
 
   const sendMessage = () => {
     setText('');
     const data = {
+      uuid: uuidv4(),
       sender: user.uid,
       receiver: selectedFriend.uid,
       message: text
     }
-    window.receiver = selectedFriend.uid;
-    dispatch(saveMessage(data));
+    saveMessage(data);
   }
   return(
         <Fragment>
@@ -99,8 +101,7 @@ const LoadFriends = ({friends, selectFriend}) => {
 
 const ChatComponent = ({conversation, selectedFriend, user}) => {
   
-  const sortCoversation = (data2) => {
-    let data = data2;
+  const sortCoversation = (data) => {
     data.sort((a, b) => a.createdAt - b.createdAt);
   }
 
@@ -108,13 +109,16 @@ const ChatComponent = ({conversation, selectedFriend, user}) => {
   return conversation.map((item, key) => {
     let createdAt = undefined;
     if(item.createdAt != null) {
-      let options = { weekday: 'short', day: 'numeric', month: 'numeric'};
+      let options = { day: 'numeric', month: 'short'};
       createdAt = new Date(item.createdAt).toLocaleString('en', options);
       createdAt += " " + new Date(item.createdAt).toLocaleTimeString([], {timeStyle: 'short'});
     }
     return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
     ? <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
-            <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/><span className="message-time">{createdAt? createdAt : ''}</span></p>
+            <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/>
+              <span className="message-time">{createdAt? createdAt : ''}</span>
+              {item.receiver !== user.uid && <span className="message-status">{item.isSeen ? <i className="far fa-eye"></i> : <i className="far fa-eye-slash"></i>}</span>}
+            </p>
       </div>
     : <Fragment key={key}></Fragment>
   })

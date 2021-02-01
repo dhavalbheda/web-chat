@@ -1,21 +1,22 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {HashRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Chat from './Components/ChatComponent/Chat';
 import PrivateRoute from './Components/Layout/PrivateRoute';
 import SignIn from './Components/SignInComponent/SignIn';
 import SignUp from './Components/SignUpComponent/SignUp';
-import { fetchCurrentUserDetail, userTabClose } from './Redux/User/UserActions';
+import { fetchCurrentUserDetail } from './Redux/User/UserActions';
 
-
+window.addEventListener('focus', () => {
+  console.log('focus');
+})
 
 const App = () =>  {
-  const { user } = useSelector(state => state.User);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCurrentUserDetail());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">

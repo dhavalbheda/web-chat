@@ -106,3 +106,8 @@
     font-size: 12px;
     color: blue;
 }
+.message-status {
+    margin-left: 5px;
+    font-size: 18px;
+    color: black;
+}

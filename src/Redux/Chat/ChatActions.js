@@ -1,4 +1,4 @@
-import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION } from './ActionType'
+import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION, UPDATE_CONVERSATION } from './ActionType'
 import firebase from './../../config/firebaseConfig';
 const db = firebase.firestore();
 const rdb = firebase.database();
@@ -42,6 +42,13 @@ export const setConversation = (data = null) => {
     }
 }
 
+export const updateConversation = (data = null) => {
+    return {
+        type: UPDATE_CONVERSATION,
+        payload: data,
+    }
+}
+
 // Set Alert
 export const setAlert = (data) => {
     return {
@@ -78,8 +85,9 @@ export const getAllFriends = (uid) => {
 }
 
 // Send Message
-export const saveMessage = ({sender, receiver, message}) => {
+export const saveMessage = async({uuid, sender, receiver, message}) => {
     rdb.ref().child(sender + "-" + receiver).push().set({
+        uuid,
         sender,
         receiver,
         message,
@@ -94,10 +102,20 @@ export const getConversation = ({sender, receiver}) => {
         dispatch(requestConversation());
         rdb.ref().child(sender + "-" + receiver).on('child_added', snap => {
            dispatch(setConversation(snap.val()));
-           console.log(snap.val());
         })
         rdb.ref().child(receiver + "-" + sender).on('child_added', snap => {
+            if(!snap.val().isSeen && window.isActive)
+                rdb.ref().child(receiver + "-" + sender).child(snap.key).update({isSeen: true});
             dispatch(setConversation(snap.val()));
         })
-    }   
+        rdb.ref().child(sender + "-" + receiver).on('child_changed', snap => {
+            dispatch(updateConversation(snap.val()))
+        })
+    }  
+}
+
+export const removeLister = (sender, receiver) => {
+    rdb.ref().child(sender + "-" + receiver).off('child_added');
+    rdb.ref().child(sender + "-" + receiver).off('child_changed');
+    rdb.ref().child(receiver + "-" + sender).off('child_added');
 }
