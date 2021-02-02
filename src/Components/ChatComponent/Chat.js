@@ -5,6 +5,7 @@ import { getAllFriends, getConversation, removeLister, saveMessage } from '../..
 import Header from '../Header/Header'
 import './style.css';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import 'emoji-picker-element';
 
 /**
 * @author DhavalBheda
@@ -50,13 +51,14 @@ const Chat = (props) => {
       message: text
     }
     saveMessage(data);
+    
   }
   return(
         <Fragment>
           <Header/>
           <section className="container-body">
             <div className="listOfUsers">
-              {friends.length > 0 && <LoadFriends selectFriend={selectFriend} friends={friends} />}
+              {friends.length > 0 && <LoadFriends uid={user.uid} selectFriend={selectFriend} friends={friends} />}
             </div>
             <div className="chatArea">
                 <div className="chatHeader"> 
@@ -70,11 +72,16 @@ const Chat = (props) => {
                 <div className="chatControls">
                   {
                     startChat && <Fragment>
+                      <div style={{display: 'flex'}}>
                         <textarea
                             placeholder = 'Enter Text...'
                             value = {text}
                             onChange = {e => setText(e.target.value)}></textarea>
-                      <button onClick={sendMessage}>Send</button>
+                        <button onClick={sendMessage}>Send</button><br/>
+                      </div>
+                      <div>
+                        <emoji-picker></emoji-picker>
+                      </div>
                     </Fragment>
                   }
                     
@@ -85,15 +92,30 @@ const Chat = (props) => {
    )
 }
 
-const LoadFriends = ({friends, selectFriend}) => {
+const LoadFriends = ({friends, selectFriend, uid}) => {
+  const addClass = (friend, uid) => {
+    if(friend.pendding) {
+      
+      if(friend.pendding.includes(uid)) {
+        console.log("take this to top");
+        return 'displayPic pending'
+      } else {
+        return 'displayPic'
+      }
+    } else {
+      return 'displayPic'
+    }
+  }
+
   return friends.map((friend, index) => 
     <div key={index} className="displayName" onClick = {() => selectFriend(friend)}>
-      <div className="displayPic">
+      <div className={addClass(friend, uid)}>
           <img src="https://i.pinimg.com/originals/86/63/78/866378ef5afbe8121b2bcd57aa4fb061.jpg" alt="" />
       </div>
       <div style={{display: 'flex', flex: 1, justifyContent: 'space-between', margin: '0 10px'}}>
           <span style={{fontWeight: 500}}>{friend.firstName + " " + friend.lastName}</span>
           <span>{friend.isActive ? 'Active' : 'offline'}</span>
+          <span></span>
       </div>
     </div>
   )
@@ -116,7 +138,7 @@ const ChatComponent = ({conversation, selectedFriend, user}) => {
     return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
     ? <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
             <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/>
-              <span className="message-time">{createdAt? createdAt : ''}</span>
+              <span className="message-time">{ createdAt? createdAt : '' }</span>
               {item.receiver !== user.uid && <span className="message-status">{item.isSeen ? <i className="far fa-eye"></i> : <i className="far fa-eye-slash"></i>}</span>}
             </p>
       </div>

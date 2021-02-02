@@ -1,7 +1,10 @@
 import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION, UPDATE_CONVERSATION } from './ActionType'
 import firebase from './../../config/firebaseConfig';
+import { setTabChange } from '../User/UserActions';
 const db = firebase.firestore();
 const rdb = firebase.database();
+const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+const arrayRemove = firebase.firestore.FieldValue.arrayRemove;
 
 // =========> All The Action Types 
 // Chat Request
@@ -78,7 +81,6 @@ export const getAllFriends = (uid) => {
                     friends.push(doc.data());
             })
             dispatch(chatSuccess(friends));
-
         })
         return unsubscribe;
     }
@@ -94,6 +96,7 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
         isSeen: false,
         createdAt: firebase.database.ServerValue.TIMESTAMP
     })
+    db.collection('users').doc(sender).update({pendding: arrayUnion(receiver)});
 }
 
 // Get Conversation
@@ -104,8 +107,10 @@ export const getConversation = ({sender, receiver}) => {
            dispatch(setConversation(snap.val()));
         })
         rdb.ref().child(receiver + "-" + sender).on('child_added', snap => {
-            if(!snap.val().isSeen && window.isActive)
+            if(!snap.val().isSeen) {
                 rdb.ref().child(receiver + "-" + sender).child(snap.key).update({isSeen: true});
+                db.collection('users').doc(receiver).update({pendding: arrayRemove(sender)});
+            }
             dispatch(setConversation(snap.val()));
         })
         rdb.ref().child(sender + "-" + receiver).on('child_changed', snap => {
