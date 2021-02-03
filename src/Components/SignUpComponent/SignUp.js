@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { signUpUser } from '../../Redux/User/UserActions';
 import Alert from '../Layout/Alert';
 
@@ -10,7 +10,7 @@ import Alert from '../Layout/Alert';
  **/
 
 const SignUp = () => {
-    const { userAlert } = useSelector(state => state.User);
+    const { userAlert, authenticated } = useSelector(state => state.User);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -24,6 +24,7 @@ const SignUp = () => {
     }
 
     return  <div className="container">
+                {authenticated && <Redirect to="/" />}
                 {userAlert && <Alert alert={userAlert} />}
                 <div className="row justify-content-center justify-content-md-start">
                     <div className="col-10 col-md-4 login-form ml-md-5 align-self-center">

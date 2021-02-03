@@ -1,6 +1,6 @@
 import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALERT, CHAT_REMOVE_ALERT, REQUEST_CONVERSATION, SET_CONVERSATION, UPDATE_CONVERSATION } from './ActionType'
 import firebase from './../../config/firebaseConfig';
-import { setTabChange } from '../User/UserActions';
+
 const db = firebase.firestore();
 const rdb = firebase.database();
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;

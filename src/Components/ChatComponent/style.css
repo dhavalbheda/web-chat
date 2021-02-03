@@ -1,5 +1,3 @@
-
-
 ::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -28,20 +26,21 @@
     overflow: hidden;
 }
 .listOfUsers{
-    width: 30%;
+    width: 20%;
     height: 100%;
     overflow-x: hidden;
     border-right: 1px solid #ccc;
+    background: #e6e6e1;
 }
 .chatArea{
-    width: 70%;
+    width: 80%;
     height: 100%;
     overflow-x: hidden;
     position: relative;
 }
 .chatHeader{
     position: fixed;
-    width: 70%;
+    width: 80%;
     height: 40px;
     background: #e2e0e0;
     text-align: center;
@@ -53,8 +52,8 @@
 .chatControls{
     display: flex;
     position: fixed;
-    width: 70%;
-    height: 48%;
+    width: 85%;
+    height: 45%;
     bottom: 5px;
     flex-direction: column;
 }
@@ -81,7 +80,7 @@
     padding: 5px 10px;
     box-sizing: border-box;
     cursor: pointer;
-    color: aliceblue;
+    color: black;
 }
 
 .displayName.active{
@@ -111,7 +110,14 @@
 }
 
 .messageSections{
-    height: 40%;
+    height: 89% !important;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    top: 40px;
+}
+.messageSections-collaps {
+    height: 45%;
     width: 100%;
     overflow-x: hidden;
     position: relative;
@@ -135,14 +141,30 @@
     font-size: 18px;
     color: black;
 }
-emoji-picker {
-    --num-columns: 13;
-    --emoji-size: 18px;
-    --background: white;
-    padding: 1px 5px;
-    width: 100%;
-  }
 
 .pending {
     border: 3px solid #05fd05;
+}
+.smile-icon {
+    cursor: pointer;
+    font-size: 35px;
+    margin-left: 20px;
+    color: white;
+}
+.send-button-icon
+{
+    cursor: pointer;
+    font-size: 35px;
+    margin-left: 30px;
+    color: white;
+}
+.control {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.emoji-picker-react{
+    width: 95% !important;
+    height: 365px !important;
 }
