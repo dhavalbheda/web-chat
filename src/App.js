@@ -8,10 +8,6 @@ import SignIn from './Components/SignInComponent/SignIn';
 import SignUp from './Components/SignUpComponent/SignUp';
 import { fetchCurrentUserDetail } from './Redux/User/UserActions';
 
-window.addEventListener('focus', () => {
-  console.log('focus');
-})
-
 const App = () =>  {
   const dispatch = useDispatch();
   useEffect(() => {

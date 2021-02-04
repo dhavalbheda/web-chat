@@ -84,13 +84,16 @@ const Chat = (props) => {
                 <div className="chatControls" style={emojiPickerClick ? {height:'45%'} :  {height:'5%'}}>
                   {
                     startChat && <Fragment>
-                      <div class="control">
+                      <div className="control">
                         <textarea
                             placeholder = 'Enter Text...'
                             value = {text}
-                            onChange = {e => setText(e.target.value)}></textarea>
-                            <span className="smile-icon" onClick={e => setEmojiPickerClick(!emojiPickerClick)}><i class="far fa-smile"></i></span>
-                            <span className="send-button-icon" onClick={sendMessage}><i class="fas fa-paper-plane"></i></span>
+                            onChange = {e => {
+                                setText(e.target.value)
+                            }}
+                            ></textarea>
+                            <span className="smile-icon" onClick={e => setEmojiPickerClick(!emojiPickerClick)}><i className="far fa-smile"></i></span>
+                            <span className="send-button-icon" onClick={sendMessage}><i className="fas fa-paper-plane"></i></span>
                       </div>
                       <div>
                        { <Picker onEmojiClick={onEmojiClick} />}
