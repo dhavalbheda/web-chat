@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {HashRouter as Router, Route} from 'react-router-dom';
 import './App.css';
-import Chat from './Components/ChatComponent/Chat';
+import Chat from './Components/ChatComponent1/Chat';
 import PrivateRoute from './Components/Layout/PrivateRoute';
 import SignIn from './Components/SignInComponent/SignIn';
 import SignUp from './Components/SignUpComponent/SignUp';
@@ -15,7 +15,7 @@ const App = () =>  {
   }, [dispatch]);
 
   return (
-    <div className="App">
+    <div className="App" style={{height:'100%'}}>
         <Router>
           <Route path="/signin"  component={SignIn} />
           <Route path="/signup" component={SignUp} />

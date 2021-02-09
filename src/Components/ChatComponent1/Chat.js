@@ -7,7 +7,6 @@ import Picker from 'emoji-picker-react';
 // User Define
 import './../Utils/css/font-awesome.css';
 import './style.css';
-import Header from '../Header/Header';
 import { getAllFriends, getConversation, removeLister, saveMessage } from '../../Redux/Chat/ChatActions';
 
 /**
@@ -63,47 +62,63 @@ const Chat = (props) => {
 
   const onEmojiClick = (event, {emoji}) => {
     setText(text +  emoji);
-   console.log(emoji);
   };
+
   return(
         <Fragment>
-          <Header/>
-          <section className="container-body">
-            <div className="listOfUsers">
-              {friends.length > 0 && <LoadFriends uid={user.uid} selectFriend={selectFriend} friends={friends} selectedFriend={selectedFriend} />}
+        <div className="main-container">
+            {/* <!-- Header --> */}
+            {/* <header className="header">
+                <div className="logo">
+                    <span>Digital</span>
+                </div>
+                <span>Dhaval Bheda</span>
+                <span className="logout"><i class="fas fa-sign-out-alt"></i></span>
+            </header> */}
+
+            {/* <!-- Sidebar --> */}
+            <div className="navigation">
+                <div className="bar-area">
+                    <span className="icon bar-icon"><i class="fas fa-bars"></i></span>
+                </div>
+                <ul>
+                    {friends.length > 0 && <LoadFriends uid={user.uid} selectFriend={selectFriend} friends={friends} selectedFriend={selectedFriend} />}
+                </ul>
             </div>
-            <div className="chatArea">
-                <div className="chatHeader"> 
-                  {startChat && selectedFriend.firstName + " " + selectedFriend.lastName}
+            
+            {/* <!-- Chat Body --> */}
+            <div className="container-body">
+                {/* <!-- Chat Header --> */}
+                <div className="friend-name">
+                    <span>{startChat && selectedFriend.firstName + " " + selectedFriend.lastName}</span>
                 </div>
-                <div className={emojiPickerClick ? "messageSections-collaps" : "messageSections"}>
+                
+                {/* Message Area */}
+                <ScrollToBottom className="message-section">
                     {
-                      startChat && <ChatComponent conversation = {conversation} selectedFriend = {selectedFriend} user = {user}  />
+                        startChat && <ChatComponent conversation = {conversation} selectedFriend = {selectedFriend} user = {user}  />
                     }
-                </div>
-                <div className="chatControls" style={emojiPickerClick ? {height:'45%'} :  {height:'5%'}}>
-                  {
-                    startChat && <Fragment>
-                      <div className="control">
+                </ScrollToBottom>
+                {/* <!-- Control Area --> */}
+                <div className="chat-control">
+                    <div className="control">
                         <textarea
-                            placeholder = 'Enter Text...'
-                            value = {text}
-                            onChange = {e => {
-                                setText(e.target.value)
-                            }}
-                            ></textarea>
-                            <span className="smile-icon" onClick={e => setEmojiPickerClick(!emojiPickerClick)}><i className="far fa-smile"></i></span>
-                            <span className="send-button-icon" onClick={sendMessage}><i className="fas fa-paper-plane"></i></span>
-                      </div>
-                      <div>
-                       { <Picker onEmojiClick={onEmojiClick} />}
-                      </div>
-                    </Fragment>
-                  }
+                                placeholder = 'Enter Text...'
+                                value = {text}
+                                onChange = {e => {
+                                    setText(e.target.value)
+                                }}
+                                ></textarea>
+                        <span className="smile-icon" onClick={e=> setEmojiPickerClick(!emojiPickerClick)}><i className="fas fa-smile"></i></span>
+                        <span className="send-icon" onClick={sendMessage}><i className="fas fa-paper-plane"></i></span>
+                    </div>
+                {emojiPickerClick && <Picker onEmojiClick={onEmojiClick} />}
+
                 </div>
-              </div>
-          </section>
-        </Fragment>
+
+            </div>
+        </div>
+    </Fragment>
    )
 }
 
@@ -121,15 +136,13 @@ const LoadFriends = ({friends, selectFriend, uid, selectedFriend}) => {
   }
 
   return friends.map((friend, index) => 
-    <div style={selectedFriend.uid === friend.uid ? {background: '#b1b1b1'} : {}} key={index} className="displayName" onClick = {() => selectFriend(friend)}>
-      <div className={addClass(friend, uid)}>
-          <img src="https://i.pinimg.com/originals/86/63/78/866378ef5afbe8121b2bcd57aa4fb061.jpg" alt="" />
-      </div>
-      <div style={{display: 'flex', flex: 1, justifyContent: 'space-between', margin: '0 10px'}}>
-          <span style={{fontWeight: 500}}>{friend.firstName + " " + friend.lastName}</span>
-          <span>{friend.isActive ? 'Active' : 'offline'}</span>
-      </div>
-    </div>
+    <li key={index}>
+        <div style={selectedFriend.uid === friend.uid ? {background: '#b1b1b1'} : {}} key={index} onClick = {() => selectFriend(friend)}>
+            <span className="icon"><img className="icon" src="https://i.pinimg.com/originals/86/63/78/866378ef5afbe8121b2bcd57aa4fb061.jpg" alt="" /></span>
+            <span className="title">{friend.firstName + " " + friend.lastName}</span>
+            {/* <span>{friend.isActive ? 'Active' : 'offline'}</span> */}
+        </div>
+    </li>
   )
 }
 
@@ -147,13 +160,16 @@ const ChatComponent = ({conversation, selectedFriend, user}) => {
       createdAt = new Date(item.createdAt).toLocaleString('en', options);
       createdAt += " " + new Date(item.createdAt).toLocaleTimeString([], {timeStyle: 'short'});
     }
+
     return (item.sender === selectedFriend.uid && item.receiver === user.uid) || (item.sender === user.uid && item.receiver === selectedFriend.uid)
-    ? <div key={key} style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
+    ? <Fragment key={key}>
+        <div style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
             <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/>
               <span className="message-time">{ createdAt? createdAt : '' }</span>
               {item.receiver !== user.uid && <span className="message-status">{item.isSeen ? <i className="far fa-eye"></i> : <i className="far fa-eye-slash"></i>}</span>}
             </p>
-      </div>
+        </div>
+      </Fragment>
     : <Fragment key={key}></Fragment>
   })
 }
