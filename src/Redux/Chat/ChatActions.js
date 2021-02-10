@@ -97,6 +97,7 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
         createdAt: firebase.database.ServerValue.TIMESTAMP
     })
     db.collection('users').doc(sender).update({pendding: arrayUnion(receiver)});
+    db.collection('users').doc(sender).update({notification: arrayUnion({receiver: receiver})})
 }
 
 // Get Conversation
@@ -110,6 +111,7 @@ export const getConversation = ({sender, receiver}) => {
             if(!snap.val().isSeen) {
                 rdb.ref().child(receiver + "-" + sender).child(snap.key).update({isSeen: true});
                 db.collection('users').doc(receiver).update({pendding: arrayRemove(sender)});
+                db.collection('users').doc(receiver).update({notification: arrayRemove({receiver: sender})});
             }
             dispatch(setConversation(snap.val()));
         })

@@ -64,6 +64,14 @@ const Chat = (props) => {
     setText(text +  emoji);
   };
 
+  const barClick = () => {
+    const bar = document.getElementsByClassName('navigation')[0];
+    if(bar.offsetWidth < 300) {
+      bar.style.width = "300px";
+    } else {
+      bar.style.width = "55px";
+    }
+  }
   return(
         <Fragment>
         <div className="main-container">
@@ -79,7 +87,7 @@ const Chat = (props) => {
             {/* <!-- Sidebar --> */}
             <div className="navigation">
                 <div className="bar-area">
-                    <span className="icon bar-icon"><i class="fas fa-bars"></i></span>
+                    <span className="icon bar-icon" onClick={barClick}><i className="fas fa-bars"></i></span>
                 </div>
                 <ul>
                     {friends.length > 0 && <LoadFriends uid={user.uid} selectFriend={selectFriend} friends={friends} selectedFriend={selectedFriend} />}
@@ -107,8 +115,8 @@ const Chat = (props) => {
                                 value = {text}
                                 onChange = {e => {
                                     setText(e.target.value)
-                                }}
-                                ></textarea>
+                                }}>
+                        </textarea>
                         <span className="smile-icon" onClick={e=> setEmojiPickerClick(!emojiPickerClick)}><i className="fas fa-smile"></i></span>
                         <span className="send-icon" onClick={sendMessage}><i className="fas fa-paper-plane"></i></span>
                     </div>

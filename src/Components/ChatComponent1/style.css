@@ -34,12 +34,7 @@ html, body {
     overflow: hidden;
     overflow-y: scroll;
     z-index: 1;
-    top: 5vh;
 }
-
-.navigation:hover {
-    width: 300px;
-} 
 
 .navigation ul {
     position: absolute;
@@ -95,9 +90,6 @@ html, body {
     width: 55px;
     transition: 0.5s;
     padding-left: 5px;
-}
-.bar-area:hover {
-    width: 300px;
 }
 
 /* Body */
