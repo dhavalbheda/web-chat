@@ -87,7 +87,8 @@ export const getAllFriends = (uid) => {
 }
 
 // Send Message
-export const saveMessage = async({uuid, sender, receiver, message}) => {
+export const saveMessage = async({uuid, sender, receiver, message}, totalUnseen=0) => {
+    // Save Message
     rdb.ref().child(sender + "-" + receiver).push().set({
         uuid,
         sender,
@@ -96,8 +97,16 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
         isSeen: false,
         createdAt: firebase.database.ServerValue.TIMESTAMP
     })
-    db.collection('users').doc(sender).update({pendding: arrayUnion(receiver)});
-    db.collection('users').doc(sender).update({notification: arrayUnion({receiver: receiver})})
+    // Save Total Unseen Message
+    rdb.ref().child(sender + "-" + receiver)
+            .orderByChild('isSeen')
+            .equalTo(false).once('value')
+            .then(data => {
+                let totalUnseen = Object.keys(data.val()).length;
+                db.collection('users').doc(sender).update({pending: arrayRemove({receiver: receiver, totalUnseen: totalUnseen - 1})});
+                db.collection('users').doc(sender).update({pending: arrayUnion({receiver, totalUnseen})});
+
+            });
 }
 
 // Get Conversation
@@ -110,8 +119,7 @@ export const getConversation = ({sender, receiver}) => {
         rdb.ref().child(receiver + "-" + sender).on('child_added', snap => {
             if(!snap.val().isSeen) {
                 rdb.ref().child(receiver + "-" + sender).child(snap.key).update({isSeen: true});
-                db.collection('users').doc(receiver).update({pendding: arrayRemove(sender)});
-                db.collection('users').doc(receiver).update({notification: arrayRemove({receiver: sender})});
+                db.collection('users').doc(receiver).update({pending: arrayRemove({reciver: sender})});
             }
             dispatch(setConversation(snap.val()));
         })
