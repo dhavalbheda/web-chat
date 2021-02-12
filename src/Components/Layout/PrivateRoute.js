@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({Component, path, ...rest}) => {
     const { authenticated } = useSelector(state => state.User);

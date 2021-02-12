@@ -2,7 +2,7 @@ import  { CHAT_FETCH_REQUEST, CHAT_FETCH_ERROR, CHAT_FETCH_SUCCESS, CHAT_SET_ALE
 import firebase from './../../config/firebaseConfig';
 
 const db = firebase.firestore();
-const rdb = firebase.database();
+const rdb = firebase.database().ref().child('conversation');
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const arrayRemove = firebase.firestore.FieldValue.arrayRemove;
 
@@ -87,9 +87,9 @@ export const getAllFriends = (uid) => {
 }
 
 // Send Message
-export const saveMessage = async({uuid, sender, receiver, message}, totalUnseen=0) => {
+export const saveMessage = async({uuid, sender, receiver, message}) => {
     // Save Message
-    rdb.ref().child(sender + "-" + receiver).push().set({
+    rdb.child(sender + "-" + receiver).push().set({
         uuid,
         sender,
         receiver,
@@ -98,7 +98,7 @@ export const saveMessage = async({uuid, sender, receiver, message}, totalUnseen=
         createdAt: firebase.database.ServerValue.TIMESTAMP
     })
     // Save Total Unseen Message
-    rdb.ref().child(sender + "-" + receiver)
+    rdb.child(sender + "-" + receiver)
             .orderByChild('isSeen')
             .equalTo(false).once('value')
             .then(data => {
@@ -113,24 +113,41 @@ export const saveMessage = async({uuid, sender, receiver, message}, totalUnseen=
 export const getConversation = ({sender, receiver}) => {
     return async dispatch => {
         dispatch(requestConversation());
-        rdb.ref().child(sender + "-" + receiver).on('child_added', snap => {
+        // Sender to Receiver Message
+        rdb.child(sender + "-" + receiver).on('child_added', snap => {
            dispatch(setConversation(snap.val()));
         })
-        rdb.ref().child(receiver + "-" + sender).on('child_added', snap => {
+
+        // Receiver to Sender Message
+        rdb.child(receiver + "-" + sender).on('child_added', snap => {
             if(!snap.val().isSeen) {
-                rdb.ref().child(receiver + "-" + sender).child(snap.key).update({isSeen: true});
+                rdb.child(receiver + "-" + sender).child(snap.key).update({isSeen: true});
                 db.collection('users').doc(receiver).update({pending: arrayRemove({reciver: sender})});
+                removeTotalUnseen(sender, receiver);
             }
             dispatch(setConversation(snap.val()));
         })
-        rdb.ref().child(sender + "-" + receiver).on('child_changed', snap => {
+
+        // Message Status Change Event Listener
+        rdb.child(sender + "-" + receiver).on('child_changed', snap => {
             dispatch(updateConversation(snap.val()))
         })
     }  
 }
 
 export const removeLister = (sender, receiver) => {
-    rdb.ref().child(sender + "-" + receiver).off('child_added');
-    rdb.ref().child(sender + "-" + receiver).off('child_changed');
-    rdb.ref().child(receiver + "-" + sender).off('child_added');
+    rdb.child(sender + "-" + receiver).off('child_added');
+    rdb.child(sender + "-" + receiver).off('child_changed');
+    rdb.child(receiver + "-" + sender).off('child_added');
+}
+
+const removeTotalUnseen = (sender, receiver) => {
+    db.collection('users').doc(receiver).get().then(snap => {
+        snap.data().pending.map(item => {
+            if (item.receiver === sender) {
+                db.collection('users').doc(receiver).update({pending: arrayRemove({receiver: sender, totalUnseen: item.totalUnseen})});;
+            }
+            return null;
+        })
+    })
 }

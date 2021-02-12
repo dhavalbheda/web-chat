@@ -7,133 +7,166 @@
 
 ::-webkit-scrollbar
 {
-	width: 12px;
+	width: 0px;
 	background-color: #F5F5F5;
 }
 
-::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #555;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container-body{
-    display: flex;
-    position: absolute;
-    width: 100%;
-    height: calc(100% - 60px);
-    overflow: hidden;
-}
-.listOfUsers{
-    width: 20%;
+html, body {
+    min-height: 100% !important;
     height: 100%;
-    overflow-x: hidden;
-    border-right: 1px solid #ccc;
-    background: #e6e6e1;
 }
-.chatArea{
-    width: 80%;
+.main-container {
     height: 100%;
-    overflow-x: hidden;
-    position: relative;
 }
-.chatHeader{
+
+.navigation {
     position: fixed;
-    width: 80%;
-    height: 40px;
+    width: 55px;
+    height: 100%;
+    background-color: aqua;
+    transition: 0.5s;
+    overflow: hidden;
+    overflow-y: scroll;
+    z-index: 1;
+}
+
+.navigation ul {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    color: black;
+}
+
+.navigation ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+}
+
+.navigation ul li div {
+    position: relative;
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    display: flex;
+}
+
+.navigation ul li div .icon {
+    position: relative;
+    display: block;
+    min-width: 45px;
+    margin: 2px;
+    width: 30px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.navigation ul li div .title {
+    position: relative;
+    display: block;
+    margin: 2px 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+.bar-icon {
+    font-size: 2rem;
+    padding-left: 5px;
+}
+.bar-area {
+    position: fixed;
+    z-index: 1;
+    background: cyan;
+    width: 55px;
+    transition: 0.5s;
+}
+.chat-panel {
+    display: flex;
+    justify-content: space-between;
+}
+.chat-panel span {
+    padding: 0px 52px;
+}
+.pending-message {
+    position: absolute;
+    z-index: 1;
+    background: #28a745;
+    font-size: 9px;
+    left: 3px;
+    border-radius: 24px;
+    padding: 4px 6px;
+}
+
+/* Body */
+
+/* Header */
+
+header {
+    width: 100%;
+    display: flex !important;
+    background: #009688;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px 2px;
+    height: 5vh;
+}
+.logout {
+    font-size: 1.5em;
+    margin-right: 20px;
+}
+
+/* Chat Area */
+.container-body {
+    border: 1px solid black;
+    margin-left: 55px;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.friend-name {
     background: #e2e0e07a;
     text-align: center;
-    line-height: 40px;
-    font-weight: bold;
-    color: #25ff0b;
-    font-size: 20px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    letter-spacing: 1px;
-}
-.chatControls{
-    display: flex;
-    position: fixed;
-    width: 85%;
-    height: 45%;
-    bottom: 5px;
-    flex-direction: column;
-}
-.chatControls textarea{
-    border-radius: 10px;
-    padding: 10px;
-    width: 82%;
-    height: 50px;
-    margin: 0px 5px;
-    background-color: #ffffffde;
-    color: black;
-    font-size: 18px;
-}
-.chatControls button{
-    margin: 0px 10px;
-    background-color: #32ec39;
-    width: 12%;
-    border-radius: 50px;
+    padding: 12px;
+    height: 5vh;
 }
 
-.displayName{
-    display: flex;
-    align-items: center;
+
+.message-section {
+    height: 88%;
+    overflow-x: hidden;
+    top: 0px;
     padding: 5px 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-    color: black;
-}
 
-.displayName.active{
-    background: #ccc;
 }
-
-.displayName .displayPic{
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
-    border-radius: 25px;
-}
-
-.displayName .displayPic img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.messageStyle{
+.messageStyle {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 10px;
     margin: 5px;
     display: inline-block;
     font-size: 18px;
-}
-
-.messageSections{
-    height: 89% !important;
-    width: 100%;
-    overflow-x: hidden;
-    position: relative;
-    top: 40px;
-}
-.messageSections-collaps {
-    height: 45%;
-    width: 100%;
-    overflow-x: hidden;
-    position: relative;
-    top: 40px;
+    max-width: 60vw;
+    overflow-wrap: anywhere;
 }
 
 .left-message {
-   background: #ffe503;
-}
-
-.right-message {
-    background: #3dec44;
-}
-
+    background: #ffe503;
+ }
+ 
+ .right-message {
+     background: #3dec44;
+ }
 .message-time {
     font-size: 12px;
     color: blue;
@@ -144,29 +177,88 @@
     color: black;
 }
 
-.pending {
-    border: 3px solid #05fd05;
+.chat-control {
+    overflow: hidden;
+    width: 100%;
 }
-.smile-icon {
-    cursor: pointer;
-    font-size: 35px;
-    margin-left: 20px;
-    color: white;
-}
-.send-button-icon
-{
-    cursor: pointer;
-    font-size: 35px;
-    margin-left: 30px;
-    color: white;
-}
+
 .control {
     display: flex;
     justify-content: start;
     align-items: center;
 }
 
+textarea {
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    margin: 0px 5px;
+    background-color: #ffffffde;
+    color: black;
+    font-size: 18px;
+    outline: none;
+    padding: 5px 55px;
+}
+.smile-icon {
+    position: absolute;
+    left: 18px;
+    font-size: 25px;
+    color: #de0404;
+    border-right: 1px solid #00000029;
+    padding-right: 8px;
+}
+.send-icon {
+    font-size: 30px;
+    padding-left: 10px;
+    position: absolute;
+    right: 15px;
+    border-left: 1px solid #00000029;
+}
+
 .emoji-picker-react{
-    width: 95% !important;
+    width: 100% !important;
     height: 365px !important;
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .navigation {
+        width: 300px;
+    } 
+    .container-body {
+        margin-left: 300px;
+    }
+}
+
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .navigation {
+        width: 300px;
+    } 
+    .container-body {
+        margin-left: 300px;
+    }
+}   
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .navigation {
+        width: 300px;
+    } 
+    .container-body {
+        margin-left: 300px;
+    }
+}
+
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+   
 }

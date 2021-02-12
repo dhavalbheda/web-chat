@@ -38,7 +38,7 @@ html, body {
 
 .navigation ul {
     position: absolute;
-    top: 50px;
+    top: 100px;
     left: 0;
     width: 100%;
     color: black;
@@ -81,25 +81,30 @@ html, body {
 
 .bar-icon {
     font-size: 2rem;
+    padding-left: 5px;
 }
 .bar-area {
     position: fixed;
     z-index: 1;
-    padding: 0px 8px;
     background: cyan;
     width: 55px;
     transition: 0.5s;
-    padding-left: 5px;
 }
-
+.chat-panel {
+    display: flex;
+    justify-content: space-between;
+}
+.chat-panel span {
+    padding: 0px 52px;
+}
 .pending-message {
     position: absolute;
     z-index: 1;
     background: #28a745;
-    font-size: 14px;
-    left: 45px;
-    border-radius: 20px;
-    padding: 0px 6px;
+    font-size: 9px;
+    left: 3px;
+    border-radius: 24px;
+    padding: 4px 6px;
 }
 
 /* Body */
