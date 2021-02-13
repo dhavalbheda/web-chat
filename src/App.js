@@ -21,7 +21,7 @@ const App = () =>  {
           <Route path="/signin"  component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <PrivateRoute exact path="/" component={Room} />
-          {/* <PrivateRoute exact path="/" component={Chat} /> */}
+          <PrivateRoute exact path="/private" component={Chat} /> 
         </Router>
     </div>
   );

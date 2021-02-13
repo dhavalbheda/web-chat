@@ -79,3 +79,8 @@ export const getConversation = (roomid) => {
         })
     }
 }
+
+export const removeLister = (roomid) => {
+    if(roomid)
+        rdb.child(roomid).off('child_added');
+}

@@ -1,17 +1,19 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import Picker from 'emoji-picker-react';
 import './style.css';
 
 // User Define
 import { useDispatch, useSelector } from "react-redux";
-import { getAllRooms, getConversation, saveMessage } from "../../Redux/Room/RoomAction";
+import { getAllRooms, getConversation, removeLister, saveMessage } from "../../Redux/Room/RoomAction";
 import Sidebar from './Sidebar';
+import ConversationComponent from './ConversationComponent';
 
 
 const Room = () => {
     const { user } = useSelector(state => state.User);
-    const { rooms } = useSelector(state => state.Room);
+    const { rooms, conversation } = useSelector(state => state.Room);
     const [startChat, setStartChat] = useState(false);
     const [ selectedRoom, setSelecedRoom ] = useState({});
     const [text, setText] = useState('');
@@ -21,6 +23,10 @@ const Room = () => {
     useEffect(() => {
         dispatch(getAllRooms());
     }, []);
+
+    useEffect(() => {
+      return () => removeLister(selectedRoom.uid);
+    },[selectedRoom]);
 
     // Room Click Event Listener
     const selectRoom = (room) => {
@@ -70,6 +76,16 @@ const Room = () => {
                 <div className="friend-name">
                     <span>{startChat && selectedRoom.name}</span>
                 </div>
+
+                {/* Message Area */}
+                <ScrollToBottom className="message-section">
+                  {
+                    startChat && <ConversationComponent 
+                                    conversation = {conversation}
+                                    selectedRoom = {selectedRoom} 
+                                    user = {user} />
+                  }
+                </ScrollToBottom>
 
                 {/* <!-- Control Area --> */}
                 {

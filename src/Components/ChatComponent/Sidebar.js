@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
     
@@ -19,7 +20,7 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
             <div className="bar-area">
                 <span className="icon bar-icon" onClick={barClick}><i className="fas fa-bars"></i></span>
                 <div className="chat-panel">
-                    <span>Group</span>
+                    <span><Link to='/'>Group</Link></span>
                     <span>Private</span>
                 </div>
             </div>

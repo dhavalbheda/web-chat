@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar = ({uid, rooms, selectRoom, selectedRoom}) => {
     
@@ -20,7 +21,7 @@ const Sidebar = ({uid, rooms, selectRoom, selectedRoom}) => {
                 <span className="icon bar-icon" onClick={barClick}><i className="fas fa-bars"></i></span>
                 <div className="chat-panel">
                     <span>Group</span>
-                    <span>Private</span>
+                    <span><Link to='/private'>Private</Link></span>
                 </div>
             </div>
             <ul>
