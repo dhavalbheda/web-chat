@@ -29,7 +29,6 @@ html, body {
     position: fixed;
     width: 55px;
     height: 100%;
-    background-color: aqua;
     transition: 0.5s;
     overflow: hidden;
     overflow-y: scroll;
@@ -86,7 +85,6 @@ html, body {
 .bar-area {
     position: fixed;
     z-index: 1;
-    background: cyan;
     width: 55px;
     transition: 0.5s;
 }

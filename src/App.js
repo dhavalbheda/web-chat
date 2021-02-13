@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {HashRouter as Router, Route} from 'react-router-dom';
 import './App.css';
-import Chat from './Components/ChatComponent/Chat';
+// import Chat from './Components/ChatComponent/Chat';
 import PrivateRoute from './Components/Layout/PrivateRoute';
 import Room from './Components/RoomComponent/Room';
 import SignIn from './Components/SignInComponent/SignIn';
@@ -21,7 +21,7 @@ const App = () =>  {
           <Route path="/signin"  component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <PrivateRoute exact path="/" component={Room} />
-          <PrivateRoute exact path="/private" component={Chat} /> 
+          {/* <PrivateRoute exact path="/private" component={Chat} />  */}
         </Router>
     </div>
   );

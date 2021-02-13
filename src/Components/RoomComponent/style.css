@@ -29,19 +29,18 @@ html, body {
     position: fixed;
     width: 55px;
     height: 100%;
-    background-color: aqua;
     transition: 0.5s;
     overflow: hidden;
     overflow-y: scroll;
     z-index: 1;
+    background: #ffffff87;
+    color: green;
 }
 
 .navigation ul {
-    position: absolute;
-    top: 100px;
-    left: 0;
+    height: 85%;
     width: 100%;
-    color: black;
+    overflow-y: scroll;
 }
 
 .navigation ul li {
@@ -84,9 +83,7 @@ html, body {
     padding-left: 5px;
 }
 .bar-area {
-    position: fixed;
-    z-index: 1;
-    background: cyan;
+    height: 15%;
     width: 55px;
     transition: 0.5s;
 }
@@ -95,7 +92,7 @@ html, body {
     justify-content: space-between;
 }
 .chat-panel span {
-    padding: 0px 52px;
+    padding: 5px 52px;
 }
 .pending-message {
     position: absolute;
@@ -106,7 +103,9 @@ html, body {
     border-radius: 24px;
     padding: 4px 6px;
 }
-
+.selected-room {
+    background: linear-gradient(90deg, rgb(198 198 198 / 80%) -34.8%, rgba(255, 255, 255, 0.1) 111.2%);;
+}
 /* Body */
 
 /* Header */
@@ -135,7 +134,7 @@ header {
 }
 
 .friend-name {
-    background: #e2e0e07a;
+    background: #FFFFFF;
     text-align: center;
     padding: 12px;
     height: 5vh;
@@ -222,6 +221,17 @@ textarea {
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+    .main-container {
+        width: 85%;
+        margin: 2% auto;
+        height: 94%;
+    }
+    .navigation {
+        height: 94%;
+    }
+    .bar-icon { 
+        visibility: hidden;
+    }
     .navigation {
         width: 300px;
     } 
@@ -233,6 +243,9 @@ textarea {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+    .bar-icon { 
+        visibility: hidden;
+    }
     .navigation {
         width: 300px;
     } 
@@ -244,6 +257,9 @@ textarea {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+    .bar-icon { 
+        visibility: hidden;
+    }
     .navigation {
         width: 300px;
     } 

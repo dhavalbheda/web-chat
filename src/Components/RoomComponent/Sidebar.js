@@ -42,7 +42,7 @@ const LoadRooms = ({rooms, selectedRoom, selectRoom }) => {
           {
             return(
             <li key={index}>
-               <div style={selectedRoom.uid === room.uid ? {background: '#b1b1b1'} : {}} key={index} onClick = {() => selectRoom(room)}>
+               <div style={selectedRoom.uid === room.uid ? {background: '#f1f8eb'} : {}} key={index} onClick = {() => selectRoom(room)}>
                   {/* {pending && <span className="pending-message">{pending}</span>} */}
                   <span className="icon"><img className="icon" src="https://i.pinimg.com/originals/86/63/78/866378ef5afbe8121b2bcd57aa4fb061.jpg" alt="" /></span>
                   <span className="title">{room.name}</span>

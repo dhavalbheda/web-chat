@@ -2,14 +2,14 @@ import React, { Fragment, useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Picker from 'emoji-picker-react';
-import './style.css';
 
 // User Define
+import './../Utils/css/font-awesome.css';
+import './style.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRooms, getConversation, removeLister, saveMessage } from "../../Redux/Room/RoomAction";
 import Sidebar from './Sidebar';
 import ConversationComponent from './ConversationComponent';
-
 
 const Room = () => {
     const { user } = useSelector(state => state.User);

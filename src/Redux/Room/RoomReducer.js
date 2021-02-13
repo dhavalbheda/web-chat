@@ -19,7 +19,7 @@ const RoomReducer = (state = initialState, action) => {
         case ROOM_FETCH_SUCCESS:
             return {
                 ...state,
-                rooms: payload,
+                rooms: [...payload, ...payload, ...payload, ...payload, ...payload, ...payload],
                 loadding: false,
             }
         case ROOM_FETCH_ERROR:
