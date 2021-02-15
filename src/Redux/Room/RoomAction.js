@@ -1,10 +1,8 @@
-import  { ROOM_FETCH_REQUEST, ROOM_FETCH_ERROR, ROOM_FETCH_SUCCESS, ROOM_SET_ALERT, ROOM_REMOVE_ALERT, ROOM_REQUEST_CONVERSATION, ROOM_SET_CONVERSATION, UPDATE_CONVERSATION } from './ActionType'
+import  { ROOM_FETCH_REQUEST, ROOM_FETCH_SUCCESS, ROOM_REQUEST_CONVERSATION, ROOM_SET_CONVERSATION } from './ActionType'
 import firebase from './../../config/firebaseConfig';
 
 const db = firebase.firestore();
 const rdb = firebase.database().ref().child('rooms');
-const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
-const arrayRemove = firebase.firestore.FieldValue.arrayRemove;
 
 // =========> All The Action Types 
 // Room Request
@@ -49,7 +47,7 @@ export const getAllRooms = () => {
         const unsubscribe = db.collection('rooms').onSnapshot((querySnapshot) => {
             const rooms = [];
             querySnapshot.forEach(function(doc) {
-                doc.data().name.map(item => rooms.push(item))
+                doc.data().name.map(item => rooms.push(item));
             });
             dispatch(roomSuccess(rooms));
         })
@@ -59,10 +57,11 @@ export const getAllRooms = () => {
 
 
 // Send Message
-export const saveMessage = async({uuid, sender, roomid, message}) => {
+export const saveMessage = async({uuid, name, sender, roomid, message}) => {
     // Save Message
     rdb.child(roomid).push().set({
         uuid,
+        name,
         sender,
         roomid,
         message,

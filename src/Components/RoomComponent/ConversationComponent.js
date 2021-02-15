@@ -16,7 +16,9 @@ const ConversationComponent = ({conversation, selectedRoom, user}) => {
     return (item.roomid === selectedRoom.uid)
     ? <Fragment key={key}>
         <div style={{ textAlign: item.sender === user.uid ? 'right' : 'left'}}>
-            <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'} >{item.message}<br/>
+            <p className={item.sender === user.uid ? 'messageStyle right-message' : 'messageStyle left-message'}>
+              <span className="message-time">{item.name}</span>
+              <br/>{item.message}<br/>
               <span className="message-time">{ createdAt ? createdAt : '' }</span>
             </p>
         </div>

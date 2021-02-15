@@ -74,17 +74,40 @@ export const removeAlert = (data) => {
 // Get All Message
 export const getAllFriends = (uid) => {
     return async dispatch => {
-        const unsubscribe = db.collection('users').onSnapshot((querySnapshot) => {
+        
+        db.collection('users').onSnapshot((querySnapshot) => {
             const friends = [];
             querySnapshot.forEach(function(doc) {
                 if(doc.data().uid !== uid)
                     friends.push(doc.data());
             })
-            dispatch(chatSuccess(friends));
+            
+            getLastSender(friends, uid, dispatch);
+            
         })
-        return unsubscribe;
     }
 }
+
+const getLastSender = async(friends, uid, dispatch) => {
+    db.collection('users').doc(uid).get()
+    .then(user => {
+        let lastMessage = user.data().lastMessage;
+        let index = friends.findIndex(item => item.uid === lastMessage);
+        let newArray = array_move(friends, index, 0);
+        dispatch(chatSuccess(newArray));
+    })
+}
+
+function array_move(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing
+};
 
 // Send Message
 export const saveMessage = async({uuid, sender, receiver, message}) => {
@@ -105,7 +128,7 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
                 let totalUnseen = Object.keys(data.val()).length;
                 db.collection('users').doc(sender).update({pending: arrayRemove({receiver: receiver, totalUnseen: totalUnseen - 1})});
                 db.collection('users').doc(sender).update({pending: arrayUnion({receiver, totalUnseen})});
-
+                db.collection('users').doc(receiver).update({lastMessage: sender});
             });
 }
 

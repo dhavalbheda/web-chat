@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import brandIcon from '../Utils/images/brand.png' ;
+import userIcon from '../Utils/images/user-icon.png';
 
 const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
     
@@ -19,9 +21,12 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
         <div className="navigation">
             <div className="bar-area">
                 <span className="icon bar-icon" onClick={barClick}><i className="fas fa-bars"></i></span>
+                <div className="brand-panel">
+                    <img className="brand-icon" alt="" src={brandIcon} />
+                </div>
                 <div className="chat-panel">
-                    <span><Link to='/'>Group</Link></span>
-                    <span>Private</span>
+                    <span><Link to='/group'>Group</Link></span>
+                    <span className="selected-option">Private</span>
                 </div>
             </div>
             <ul>
@@ -56,9 +61,9 @@ const LoadFriends = ({friends, selectFriend, uid, selectedFriend}) => {
             let pending =  checkUnseen(friend);
             return(
             <li key={index}>
-              <div style={selectedFriend.uid === friend.uid ? {background: '#b1b1b1'} : {}} key={index} onClick = {() => selectFriend(friend)}>
+              <div style={selectedFriend.uid === friend.uid ? {background: '#0a762233'} : {}} key={index} onClick = {() => selectFriend(friend)}>
                   {pending && <span className="pending-message">{pending}</span>}
-                  <span className="icon"><img className="icon" src="https://i.pinimg.com/originals/86/63/78/866378ef5afbe8121b2bcd57aa4fb061.jpg" alt="" /></span>
+                  <span className="icon"><img className="icon" src={userIcon} alt="" /></span>
                   <span className="title">{friend.firstName + " " + friend.lastName}</span>
               </div>
             </li>

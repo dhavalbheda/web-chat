@@ -93,6 +93,7 @@ const updateCurrentUserDetail = (user, data, dispatch) => {
             email,
             uid: user.user.uid,
             isActive: true,
+            pending: [],
             createdAt: new Date()
         })
         .then(() => {

@@ -22,7 +22,7 @@ const Room = () => {
 
     useEffect(() => {
         dispatch(getAllRooms());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
       return () => removeLister(selectedRoom.uid);
@@ -30,7 +30,7 @@ const Room = () => {
 
     // Room Click Event Listener
     const selectRoom = (room) => {
-        if(selectedRoom && selectedRoom.uid == room.uid)
+        if(selectedRoom && selectedRoom.uid === room.uid)
         return;
 
         // If Firsh Time Click
@@ -48,6 +48,7 @@ const Room = () => {
     setText('');
     const data = {
       uuid: uuidv4(),
+      name: user.firstName + " "+ user.lastName,
       sender: user.uid,
       roomid: selectedRoom.uid,
       message: text
@@ -71,7 +72,7 @@ const Room = () => {
                 selectedRoom={selectedRoom} />
             
             {/* <!-- Chat Body --> */}
-            <div className="container-body">
+            {startChat && <div className="container-body">
                 {/* <!-- Chat Header --> */}
                 <div className="friend-name">
                     <span>{startChat && selectedRoom.name}</span>
@@ -88,16 +89,14 @@ const Room = () => {
                 </ScrollToBottom>
 
                 {/* <!-- Control Area --> */}
-                {
-                  startChat && <ControlComponent 
+                   <ControlComponent 
                                 text={text} 
                                 setText={setText}
                                 setEmojiPickerClick={setEmojiPickerClick}
                                 sendMessage={sendMessage}
                                 emojiPickerClick={emojiPickerClick}
                                 onEmojiClick={onEmojiClick} />
-                }
-            </div>      
+            </div>      }
         </div>
     </Fragment>
 }

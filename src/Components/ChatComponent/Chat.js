@@ -26,16 +26,13 @@ const Chat = (props) => {
   const [emojiPickerClick, setEmojiPickerClick] = useState(false);
   const dispatch = useDispatch();
 
-  let unsubscribe;
   useEffect(() => {
-      unsubscribe = dispatch(getAllFriends(user.uid))
-      .then(unsubscribeMehod => unsubscribeMehod)
-      .catch(error => console.log(error))
-  }, [])
+      dispatch(getAllFriends(user.uid))
+  }, [dispatch,user.uid])
 
   useEffect(() => {
     return () => removeLister(user.uid, selectedFriend.uid);
-  }, [selectedFriend]);
+  }, [selectedFriend, user.uid]);
   
 
    // Friend Click Listener
@@ -80,7 +77,9 @@ const Chat = (props) => {
                 selectedFriend={selectedFriend} />
 
             {/* <!-- Chat Body --> */}
-            <div className="container-body">
+            {startChat &&
+              <div className="container-body">
+
                 {/* <!-- Chat Header --> */}
                 <div className="friend-name">
                     <span>{startChat && selectedFriend.firstName + " " + selectedFriend.lastName}</span>
@@ -88,24 +87,22 @@ const Chat = (props) => {
                 
                 {/* Message Area */}
                 <ScrollToBottom className="message-section">
-                    {
-                      startChat && <ConversationComponent 
-                                      conversation = {conversation}
-                                      selectedFriend = {selectedFriend} 
-                                      user = {user}/>
-                    }
+                  <ConversationComponent 
+                                        conversation = {conversation}
+                                        selectedFriend = {selectedFriend} 
+                                        user = {user}/>
                 </ScrollToBottom>
+
                 {/* <!-- Control Area --> */}
-                {
-                  startChat && <ControlComponent 
+                <ControlComponent 
                                 text={text} 
                                 setText={setText}
                                 setEmojiPickerClick={setEmojiPickerClick}
                                 sendMessage={sendMessage}
                                 emojiPickerClick={emojiPickerClick}
                                 onEmojiClick={onEmojiClick} />
-                }
-            </div>
+              </div> 
+            }
         </div>
     </Fragment>
    )
