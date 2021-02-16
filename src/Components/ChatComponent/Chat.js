@@ -51,6 +51,8 @@ const Chat = (props) => {
 
   // Message Send Button
   const sendMessage = () => {
+    if(text === '')
+      return;
     setText('');
     const data = {
       uuid: uuidv4(),
@@ -71,7 +73,7 @@ const Chat = (props) => {
         <Fragment>
         <div className="main-container">
             {/* <!-- Sidebar --> */}
-            <Sidebar
+          <Sidebar
                 uid={user.uid}
                 selectFriend={selectFriend}
                 friends={friends}
@@ -108,7 +110,8 @@ const Chat = (props) => {
             : //Brand Name
               <div className="chat-image-div">
                 <img className="temp" style={{width:'100%'}} src={chatImage} alt="" />
-              </div>}
+              </div>
+            }
             </div> 
 
         </div>

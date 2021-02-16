@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllRooms, getConversation, removeLister, saveMessage } from "../../Redux/Room/RoomAction";
 import Sidebar from './Sidebar';
 import ConversationComponent from './ConversationComponent';
+import chatImage from '../Utils/images/chat-image.png'
+
 
 const Room = () => {
     const { user } = useSelector(state => state.User);
@@ -45,7 +47,8 @@ const Room = () => {
 
     // Message Send Button
   const sendMessage = () => {
-    setText('');
+    if(text === '')
+      return;
     const data = {
       uuid: uuidv4(),
       name: user.firstName + " "+ user.lastName,
@@ -54,6 +57,7 @@ const Room = () => {
       message: text
     }
     saveMessage(data);
+    setText('');
   }
 
   // Emoji Button Click Listener
@@ -63,17 +67,19 @@ const Room = () => {
 
 
     return <Fragment>
-         <div className="main-container">
-            {/* <!-- Sidebar --> */}
-            <Sidebar
-                uid={user.uid}
-                rooms={rooms}
-                selectRoom={selectRoom}
-                selectedRoom={selectedRoom} />
-            
-            {/* <!-- Chat Body --> */}
-            {startChat && <div className="container-body">
-                {/* <!-- Chat Header --> */}
+        <div className="main-container">
+          {/* <!-- Sidebar --> */}
+          <Sidebar
+              uid={user.uid}
+              rooms={rooms}
+              selectRoom={selectRoom}
+              selectedRoom={selectedRoom} />
+          
+          {/* <!-- Chat Body --> */}
+          <div className="container-body">
+            {/* <!-- Chat Header --> */}
+            {startChat 
+            ? <Fragment>
                 <div className="friend-name">
                     <span>{startChat && selectedRoom.name}</span>
                 </div>
@@ -89,14 +95,20 @@ const Room = () => {
                 </ScrollToBottom>
 
                 {/* <!-- Control Area --> */}
-                   <ControlComponent 
-                                text={text} 
-                                setText={setText}
-                                setEmojiPickerClick={setEmojiPickerClick}
-                                sendMessage={sendMessage}
-                                emojiPickerClick={emojiPickerClick}
-                                onEmojiClick={onEmojiClick} />
-            </div>      }
+                <ControlComponent 
+                            text={text} 
+                            setText={setText}
+                            setEmojiPickerClick={setEmojiPickerClick}
+                            sendMessage={sendMessage}
+                            emojiPickerClick={emojiPickerClick}
+                            onEmojiClick={onEmojiClick} />
+              </Fragment>
+            : <div className="chat-image-div">
+                <img className="temp" style={{width:'100%'}} src={chatImage} alt="" />
+              </div>
+                  
+            }
+          </div>      
         </div>
     </Fragment>
 }

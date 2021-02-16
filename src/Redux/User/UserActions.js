@@ -94,6 +94,7 @@ const updateCurrentUserDetail = (user, data, dispatch) => {
             uid: user.user.uid,
             isActive: true,
             pending: [],
+            lastMessage: null,
             createdAt: new Date()
         })
         .then(() => {

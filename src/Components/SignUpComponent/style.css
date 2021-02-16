@@ -44,9 +44,9 @@ form img {
     background: green;
     color: white !important;
 }
-input {
-    color: green;
-}
+.form-control {
+    color: green !important;
+} 
 .form-control:focus {
     color: green !important;
     outline: none !important;

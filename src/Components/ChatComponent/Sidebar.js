@@ -20,17 +20,22 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
     return <Fragment>
         <div className="navigation">
             <div className="bar-area">
-                <span className="icon bar-icon" onClick={barClick}><i className="fas fa-bars"></i></span>
-                <div className="brand-panel">
+                <div className="brand-panel" onClick={barClick}>
                     <img className="brand-icon" alt="" src={brandIcon} />
                 </div>
-                <div className="chat-panel">
-                    <span><Link to='/group'>Group</Link></span>
-                    <span className="selected-option">Private</span>
-                </div>
+                <div className="chat-option" style={{borderBottom:'2px solid green', borderTop: '8px solid green', background: '#00800036'}}>
+                  <span className="icon private"><i class="fas fa-user"></i></span>
+                  <span className="title title-private">Private</span>
+                </div> 
+                <Link to='/group' className="selected-option">
+                  <div className="chat-option" style={{borderBottom:'8px solid green'}}>
+                    <span className="icon"><i class="fas fa-users"></i></span>
+                    <span className="title">Group</span>
+                  </div>
+                </Link>
             </div>
             <ul>
-                {friends.length > 0 && <LoadFriends
+                {friends.length && <LoadFriends
                                             uid={uid}
                                             selectFriend={selectFriend}
                                             friends={friends}
@@ -41,9 +46,9 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
 }
 
 const LoadFriends = ({friends, selectFriend, uid, selectedFriend}) => {
-
     // Check Pending Message 
     const checkUnseen = (friend) => {
+     
       if(friend.pending) {
         let flg = friend.pending.filter(item => item.receiver === uid);
         if(flg.length) {

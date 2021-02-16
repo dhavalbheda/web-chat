@@ -81,8 +81,8 @@ export const getAllFriends = (uid) => {
                 if(doc.data().uid !== uid)
                     friends.push(doc.data());
             })
-            
-            getLastSender(friends, uid, dispatch);
+            if(friends.length)
+                getLastSender(friends, uid, dispatch);
             
         })
     }
