@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/web-chat/static/css/main.2f217fdc.chunk.css",
-    "main.js": "/web-chat/static/js/main.5ab6dd89.chunk.js",
-    "main.js.map": "/web-chat/static/js/main.5ab6dd89.chunk.js.map",
+    "main.css": "/web-chat/static/css/main.a43cbc69.chunk.css",
+    "main.js": "/web-chat/static/js/main.75c9e433.chunk.js",
+    "main.js.map": "/web-chat/static/js/main.75c9e433.chunk.js.map",
     "runtime-main.js": "/web-chat/static/js/runtime-main.5c962770.js",
     "runtime-main.js.map": "/web-chat/static/js/runtime-main.5c962770.js.map",
     "static/css/2.150d169a.chunk.css": "/web-chat/static/css/2.150d169a.chunk.css",
@@ -10,7 +10,7 @@
     "static/js/2.8f91d198.chunk.js.map": "/web-chat/static/js/2.8f91d198.chunk.js.map",
     "index.html": "/web-chat/index.html",
     "static/css/2.150d169a.chunk.css.map": "/web-chat/static/css/2.150d169a.chunk.css.map",
-    "static/css/main.2f217fdc.chunk.css.map": "/web-chat/static/css/main.2f217fdc.chunk.css.map",
+    "static/css/main.a43cbc69.chunk.css.map": "/web-chat/static/css/main.a43cbc69.chunk.css.map",
     "static/js/2.8f91d198.chunk.js.LICENSE.txt": "/web-chat/static/js/2.8f91d198.chunk.js.LICENSE.txt",
     "static/media/brand.9a2e4c42.png": "/web-chat/static/media/brand.9a2e4c42.png",
     "static/media/chat-image.c91efea0.png": "/web-chat/static/media/chat-image.c91efea0.png",
@@ -20,7 +20,7 @@
     "static/js/runtime-main.5c962770.js",
     "static/css/2.150d169a.chunk.css",
     "static/js/2.8f91d198.chunk.js",
-    "static/css/main.2f217fdc.chunk.css",
-    "static/js/main.5ab6dd89.chunk.js"
+    "static/css/main.a43cbc69.chunk.css",
+    "static/js/main.75c9e433.chunk.js"
   ]
 }
