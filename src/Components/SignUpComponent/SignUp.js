@@ -26,8 +26,8 @@ const SignUp = () => {
     return  <div className="container">
                 {authenticated && <Redirect to="/" />}
                 {userAlert && <Alert alert={userAlert} />}
-                <div className="row justify-content-center justify-content-md-start">
-                    <div className="col-10 col-md-4 login-form ml-md-5 align-self-center">
+                <div className="row justify-content-center justify-content-md-center">
+                    <div className="col-10 col-md-4 login-form align-self-center">
                         <form>
                             <div className="form-group row">
                                 <img alt="signin" src="https://media.giphy.com/media/kcZlnhiaB1p76tKS6S/giphy.gif" />
@@ -66,7 +66,7 @@ const SignUp = () => {
                             </div>
                             <div className="form-group row justify-content-center mb-4">
                                 <div className="col-sm-10">
-                                    <input  type="text"
+                                    <input  type="email"
                                             className="form-control"
                                             placeholder="Enter Email Id"
                                             value={email}
@@ -102,8 +102,8 @@ const SignUp = () => {
                                 </div>
                             </div>
                             <div className="form-group row justify-content-center">
-                            <button className="btn btn-primary m-2" onClick={(e) => onsubmit(e)}>Sign Up</button>
-                                <NavLink to="/signin" className="btn btn-primary m-2">I Have Account</NavLink>
+                            <button className="btn btn-custom m-2" onClick={(e) => onsubmit(e)}>Sign Up</button>
+                                <NavLink to="/signin" className="btn btn-custom m-2">I Have Account</NavLink>
                             </div>
                         </form>
                     </div>

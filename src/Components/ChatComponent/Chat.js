@@ -10,6 +10,7 @@ import './style.css';
 import { getAllFriends, getConversation, removeLister, saveMessage } from '../../Redux/Chat/ChatActions';
 import ConversationComponent from './ConversationComponent';
 import Sidebar from './Sidebar';
+import chatImage from '../Utils/images/chat-image.png'
 
 /**
 * @author DhavalBheda
@@ -77,10 +78,12 @@ const Chat = (props) => {
                 selectedFriend={selectedFriend} />
 
             {/* <!-- Chat Body --> */}
-            {startChat &&
+           
               <div className="container-body">
 
                 {/* <!-- Chat Header --> */}
+              {startChat ?  
+              <Fragment>
                 <div className="friend-name">
                     <span>{startChat && selectedFriend.firstName + " " + selectedFriend.lastName}</span>
                 </div>
@@ -101,8 +104,13 @@ const Chat = (props) => {
                                 sendMessage={sendMessage}
                                 emojiPickerClick={emojiPickerClick}
                                 onEmojiClick={onEmojiClick} />
-              </div> 
-            }
+            </Fragment>
+            : //Brand Name
+              <div className="chat-image-div">
+                <img className="temp" style={{width:'100%'}} src={chatImage} alt="" />
+              </div>}
+            </div> 
+
         </div>
     </Fragment>
    )

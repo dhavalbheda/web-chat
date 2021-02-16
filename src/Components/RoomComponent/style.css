@@ -156,6 +156,12 @@ header {
     height: 100%;
 }
 
+.chat-image-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 .friend-name {
     background:rgba(255,255,255,0.8);
     text-align: center;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './style.css'
 import { NavLink, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from './../../Redux/User/UserActions';
 import Alert from '../Layout/Alert';
+import './style.css'
 
 
 /**
@@ -25,8 +25,8 @@ const SignIn = () => {
     return  <div className="container">
                 {userAlert && <Alert alert={userAlert} />}
                 {authenticated && <Redirect to="/" />}
-                <div className="row justify-content-center justify-content-md-start">
-                    <div className="col-10 col-md-4 login-form ml-md-5 align-self-center">
+                <div className="row justify-content-center justify-content-md-center">
+                    <div className="col-10 col-md-4 login-form align-self-center py-3">
                         <form>
                             <div className="form-group row">
                                 <img alt="signin" src="https://media.giphy.com/media/kcZlnhiaB1p76tKS6S/giphy.gif" />
@@ -41,7 +41,7 @@ const SignIn = () => {
                                             id="staticEmail" 
                                             placeholder="email@example.com"
                                             value={email}
-                                            onChange={(e) => setEmail(e.target.value)} />;
+                                            onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -52,14 +52,14 @@ const SignIn = () => {
                                     <input  type="password"
                                             className="form-control"
                                             id="inputPassword"
-                                            placeholder="Password"
+                                            placeholder="Enter Password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)} />
                                 </div>
                             </div>
                             <div className="form-group row justify-content-center">
-                                <button className="btn btn-primary m-2" onClick={e => onsubmit(e)}>Sign In</button>
-                                <NavLink to="/signup" className="btn btn-primary m-2">Sign Up</NavLink>
+                                <button className="btn btn-custom m-2" onClick={e => onsubmit(e)}>Sign In</button>
+                                <NavLink to="/signup" className="btn btn-custom m-2">Sign Up</NavLink>
                             </div>
                         </form>
                     </div>
