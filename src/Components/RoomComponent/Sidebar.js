@@ -25,7 +25,7 @@ const Sidebar = ({uid, rooms, selectRoom, selectedRoom}) => {
                 </div>
                 <Link to='/' className="selected-option">
                     <div className="chat-option" style={{borderBottom:'2px solid green', borderTop: '8px solid green'}}>
-                    <span className="icon private"><i class="fas fa-user"></i></span>
+                    <span className="icon icon-private"><i class="fas fa-user"></i></span>
                     <span className="title title-private">Private</span>
                     </div>
                 </Link>

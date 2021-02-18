@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Component, Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import ScrollToBottom from 'react-scroll-to-bottom';
@@ -11,6 +11,7 @@ import { getAllFriends, getConversation, removeLister, saveMessage } from '../..
 import ConversationComponent from './ConversationComponent';
 import Sidebar from './Sidebar';
 import chatImage from '../Utils/images/chat-image.png'
+import sendIcon from '../Utils/images/send-icon.png';
 
 /**
 * @author DhavalBheda
@@ -18,6 +19,7 @@ import chatImage from '../Utils/images/chat-image.png'
 **/
 
 const Chat = (props) => {
+  
   const { user } = useSelector(state => state.User);
   const { conversation } = useSelector(state => state.Chat);
   const { friends } = useSelector(state => state.Chat);
@@ -68,6 +70,16 @@ const Chat = (props) => {
     setText(text +  emoji);
   };
 
+  //Body Click 
+  const containerBodyClick = () => {
+    if(window.innerWidth < 600) {
+      const bar = document.getElementsByClassName('navigation')[0];
+      if(bar.offsetWidth > 55) {
+          bar.style.width = "55px";
+          document.getElementsByClassName('bar-area')[0].style.width = "55px";
+      }
+    }
+  }
 
   return(
         <Fragment>
@@ -81,7 +93,7 @@ const Chat = (props) => {
 
             {/* <!-- Chat Body --> */}
            
-              <div className="container-body">
+              <div className="container-body" onClick={containerBodyClick}>
 
                 {/* <!-- Chat Header --> */}
               {startChat ?  
@@ -122,18 +134,31 @@ const Chat = (props) => {
 
 
 const ControlComponent = ({text, setText, setEmojiPickerClick, sendMessage, emojiPickerClick, onEmojiClick}) => {
+
   return <Fragment>
     <div className="chat-control">
       <div className="control">
           <textarea
                   placeholder = 'Enter Text...'
                   value = {text}
+                  
                   onChange = {e => {
-                      setText(e.target.value)
-                  }}>
+                      console.log('ca2');
+                      // setText(e.target.value)
+                  }}
+                  onKeyPress = {e => {
+                    return false;
+                    console.log('ca1')
+                    // setText(e.target.value)
+                
+                  }}
+                  >
+
           </textarea>
           <span className="smile-icon" onClick={e=> setEmojiPickerClick(!emojiPickerClick)}><i className="fas fa-smile"></i></span>
-          <span className="send-icon" onClick={sendMessage}><i className="fas fa-paper-plane"></i></span>
+          <span className="send-icon" onClick={sendMessage}>
+            <img style={{width: '30px'}} src={sendIcon} alt="" />
+          </span>
       </div>
       {emojiPickerClick && <Picker onEmojiClick={onEmojiClick} />}
     </div>

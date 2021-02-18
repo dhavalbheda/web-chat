@@ -5,13 +5,13 @@ import Picker from 'emoji-picker-react';
 
 // User Define
 import './../Utils/css/font-awesome.css';
-import './style.css';
+// import './style.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRooms, getConversation, removeLister, saveMessage } from "../../Redux/Room/RoomAction";
 import Sidebar from './Sidebar';
 import ConversationComponent from './ConversationComponent';
 import chatImage from '../Utils/images/chat-image.png'
-
+import sendIcon from '../Utils/images/send-icon.png';
 
 const Room = () => {
     const { user } = useSelector(state => state.User);
@@ -65,8 +65,17 @@ const Room = () => {
     setText(text +  emoji);
   };
 
-
-    return <Fragment>
+   //Body Click 
+   const containerBodyClick = () => {
+    if(window.innerWidth < 600) {
+      const bar = document.getElementsByClassName('navigation')[0];
+      if(bar.offsetWidth > 55) {
+          bar.style.width = "55px";
+          document.getElementsByClassName('bar-area')[0].style.width = "55px";
+      }
+    }
+  }
+  return <Fragment>
         <div className="main-container">
           {/* <!-- Sidebar --> */}
           <Sidebar
@@ -76,7 +85,7 @@ const Room = () => {
               selectedRoom={selectedRoom} />
           
           {/* <!-- Chat Body --> */}
-          <div className="container-body">
+          <div className="container-body" onClick={containerBodyClick}>
             {/* <!-- Chat Header --> */}
             {startChat 
             ? <Fragment>
@@ -126,7 +135,9 @@ const ControlComponent = ({text, setText, setEmojiPickerClick, sendMessage, emoj
                     }}>
             </textarea>
             <span className="smile-icon" onClick={e=> setEmojiPickerClick(!emojiPickerClick)}><i className="fas fa-smile"></i></span>
-            <span className="send-icon" onClick={sendMessage}><i className="fas fa-paper-plane"></i></span>
+            <span className="send-icon" onClick={sendMessage}>
+              <img style={{width: '30px'}} src={sendIcon} alt="" />
+            </span>
         </div>
         {emojiPickerClick && <Picker onEmojiClick={onEmojiClick} />}
       </div>

@@ -24,6 +24,7 @@ label{
     font-size: 18px !important;
     font-weight: bold;
     margin-right: 5px;
+    font-family: 'Montserrat';
 }
 
 form img {
@@ -44,7 +45,9 @@ form img {
     background: green;
     color: white !important;
 }
+
 .form-control {
+    font-size: 15px;
     color: green !important;
 } 
 .form-control:focus {

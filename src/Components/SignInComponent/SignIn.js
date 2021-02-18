@@ -31,32 +31,41 @@ const SignIn = () => {
                             <div className="form-group row">
                                 <img alt="signin" src="https://media.giphy.com/media/kcZlnhiaB1p76tKS6S/giphy.gif" />
                             </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticEmail" className="col-sm-2 col-form-label align-self-start ml-md-5">Email</label>
-                            </div>
-                            <div className="form-group row justify-content-center mb-4">
-                                <div className="col-sm-10">
-                                    <input  type="text"
-                                            className="form-control" 
-                                            id="staticEmail" 
-                                            placeholder="email@example.com"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)} />
+                            <div className="form-group row ">
+                                <div className="col-12 col-md-11 offset-md-1">
+                                    <div className="form-group row">
+                                        <label htmlFor="staticEmail" className="col-sm-2 col-form-label">Email</label>
+                                    </div>
+                                    <div className="form-group row mb-4">
+                                        <div className="col-sm-10">
+                                            <input  type="text"
+                                                    className="form-control" 
+                                                    id="staticEmail" 
+                                                    placeholder="email@example.com"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label htmlFor="inputPassword" className="col-sm-2 col-form-label ml-md-5">Password</label>
-                            </div>
-                            <div className="form-group row justify-content-center mb-4">
-                                <div className="col-sm-10">
-                                    <input  type="password"
-                                            className="form-control"
-                                            id="inputPassword"
-                                            placeholder="Enter Password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)} />
+                                <div className="col-12 col-md-11 offset-md-1">
+                                    <div className="form-group row">
+                                        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Password</label>
+                                    </div>
+                                    <div className="form-group row mb-4">
+                                        <div className="col-sm-10">
+                                            <input  type="password"
+                                                    className="form-control"
+                                                    id="inputPassword"
+                                                    placeholder="Enter Password"
+                                                    value={password}
+                                                    onChange={(e) => setPassword(e.target.value)} />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            
                             <div className="form-group row justify-content-center">
                                 <button className="btn btn-custom m-2" onClick={e => onsubmit(e)}>Sign In</button>
                                 <NavLink to="/signup" className="btn btn-custom m-2">Sign Up</NavLink>

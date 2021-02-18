@@ -8,12 +8,14 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
     // Bar Click Listener
     const barClick = () => {
         const bar = document.getElementsByClassName('navigation')[0];
-        if(bar.offsetWidth < 300) {
+        if(window.innerWidth < 600) {
+          if(bar.offsetWidth < 300) {
             bar.style.width = "300px";
             document.getElementsByClassName('bar-area')[0].style.width = "300px";
-        } else {
-            bar.style.width = "55px";
-            document.getElementsByClassName('bar-area')[0].style.width = "55px";
+          } else {
+              bar.style.width = "55px";
+              document.getElementsByClassName('bar-area')[0].style.width = "55px";
+          }
         }
     }
 
@@ -24,7 +26,7 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
                     <img className="brand-icon" alt="" src={brandIcon} />
                 </div>
                 <div className="chat-option" style={{borderBottom:'2px solid green', borderTop: '8px solid green', background: '#00800036'}}>
-                  <span className="icon private"><i class="fas fa-user"></i></span>
+                  <span className="icon icon-private"><i class="fas fa-user"></i></span>
                   <span className="title title-private">Private</span>
                 </div> 
                 <Link to='/group' className="selected-option">
@@ -68,7 +70,7 @@ const LoadFriends = ({friends, selectFriend, uid, selectedFriend}) => {
             <li key={index}>
               <div style={selectedFriend.uid === friend.uid ? {background: '#0a762233'} : {}} key={index} onClick = {() => selectFriend(friend)}>
                   {pending && <span className="pending-message">{pending}</span>}
-                  <span className="icon"><img className="icon" src={userIcon} alt="" /></span>
+                  <span className="icon">{friend.firstName[0].toUpperCase() + "" + friend.lastName[0].toUpperCase()}</span>
                   <span className="title">{friend.firstName + " " + friend.lastName}</span>
               </div>
             </li>
