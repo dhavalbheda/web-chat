@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import ScrollToBottom from 'react-scroll-to-bottom';
@@ -140,19 +140,12 @@ const ControlComponent = ({text, setText, setEmojiPickerClick, sendMessage, emoj
       <div className="control">
           <textarea
                   placeholder = 'Enter Text...'
-                  value = {text}
-                  
+                  value = {text}              
                   onChange = {e => {
-                      console.log('ca2');
+                    setText(e.target.value)
+                      // console.log('ca2');
                       // setText(e.target.value)
-                  }}
-                  onKeyPress = {e => {
-                    return false;
-                    console.log('ca1')
-                    // setText(e.target.value)
-                
-                  }}
-                  >
+                  }}>
 
           </textarea>
           <span className="smile-icon" onClick={e=> setEmojiPickerClick(!emojiPickerClick)}><i className="fas fa-smile"></i></span>

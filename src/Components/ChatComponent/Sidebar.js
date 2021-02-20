@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import brandIcon from '../Utils/images/brand.png' ;
-import userIcon from '../Utils/images/user-icon.png';
 
 const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
     
@@ -26,12 +25,12 @@ const Sidebar = ({uid, selectFriend, friends, selectedFriend}) => {
                     <img className="brand-icon" alt="" src={brandIcon} />
                 </div>
                 <div className="chat-option" style={{borderBottom:'2px solid green', borderTop: '8px solid green', background: '#00800036'}}>
-                  <span className="icon icon-private"><i class="fas fa-user"></i></span>
+                  <span className="icon icon-private"><i className="fas fa-user"></i></span>
                   <span className="title title-private">Private</span>
                 </div> 
                 <Link to='/group' className="selected-option">
                   <div className="chat-option" style={{borderBottom:'8px solid green'}}>
-                    <span className="icon"><i class="fas fa-users"></i></span>
+                    <span className="icon"><i className="fas fa-users"></i></span>
                     <span className="title">Group</span>
                   </div>
                 </Link>

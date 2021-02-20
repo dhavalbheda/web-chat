@@ -120,6 +120,8 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
         isSeen: false,
         createdAt: firebase.database.ServerValue.TIMESTAMP
     })
+    db.collection('users').doc(receiver).update({temp: arrayRemove(sender)})
+    db.collection('users').doc(receiver).update({temp: arrayUnion(sender)})
     // Save Total Unseen Message
     rdb.child(sender + "-" + receiver)
             .orderByChild('isSeen')
