@@ -1,7 +1,6 @@
 import  { USER_FETCH_REQUEST, USER_FETCH_ERROR, USER_FETCH_SUCCESS, SET_ALERT, REMOVE_ALERT, USER_LOG_OUT, TAB_CHANGE } from './ActionType'
 import firebase from './../../config/firebaseConfig';
 const db =firebase.firestore();
-const rdb = firebase.database().ref().child('alluser');
 const auth = firebase.auth();
 
 // =====================> All The Action Types 
@@ -105,38 +104,15 @@ const saveToDatabase = (uid, firstName, lastName, email, dispatch ) => {
         createdAt: new Date()
     })
     .then(() => {
-        addAllUser({firstName, lastName, email, uid}, dispatch);
-        // Save To Realtime Database
-        rdb.push().set(uid);
+        dispatch(fetchSuccess({firstName, lastName, email, uid}));
+        dispatch(setAlert({type:'success', message: "User Registerd Successfull"}))
+        setTimeout(() => dispatch(removeAlert()), 3000);
     })
     .catch(error => {
         dispatch(setAlert({type:'danger', message: error.message}))
         setTimeout(() => dispatch(removeAlert()), 3000);
     })
 }
-
-const saveToRedux = ({firstName, lastName, email, uid, allUser}, dispatch) => {
-    localStorage.setItem('userId', uid);
-    dispatch(fetchSuccess({firstName, lastName, email, uid, allUser}));
-    dispatch(setAlert({type:'success', message: "User Registerd Successfull"}))
-    setTimeout(() => dispatch(removeAlert()), 3000);
-}
-
-const addAllUser = ({firstName, lastName, email, uid}, dispatch) => {
-    rdb.once('value').then(data => {
-        let allUser = [];
-        Object.keys(data.val()).forEach(key => {
-            console.log(uid+" "+data.val()[key]);
-            if(uid !== data.val()[key])
-                allUser.push(data.val()[key]);
-        });
-        db.collection('users').doc(uid).update({allUser}).then(() => {
-            saveToRedux({firstName, lastName, email, uid, allUser}, dispatch)
-        });
-    })
-}
-
-
 
 // Fetch Current User Detail
 export const fetchCurrentUserDetail = () => {

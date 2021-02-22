@@ -74,16 +74,15 @@ export const removeAlert = (data) => {
 // Get All Message
 export const getAllFriends = (uid) => {
     return async dispatch => {
-        
         db.collection('users').onSnapshot((querySnapshot) => {
             const friends = [];
             querySnapshot.forEach(function(doc) {
-                if(doc.data().uid !== uid)
+                if(doc.data().uid !== uid) {
                     friends.push(doc.data());
+                }
             })
             if(friends.length)
                 getLastSender(friends, uid, dispatch);
-            
         })
     }
 }
@@ -92,9 +91,13 @@ const getLastSender = async(friends, uid, dispatch) => {
     db.collection('users').doc(uid).get()
     .then(user => {
         let lastMessage = user.data().lastMessage;
-        let index = friends.findIndex(item => item.uid === lastMessage);
-        let newArray = array_move(friends, index, 0);
-        dispatch(chatSuccess(newArray));
+        let index = lastMessage.length;
+        lastMessage.map((item) => {
+            index--;
+            let oldIndex = friends.findIndex(friend => friend.uid === item);
+            let newArray = array_move(friends, oldIndex, index);
+            dispatch(chatSuccess(newArray));
+        })
     })
 }
 
@@ -120,8 +123,6 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
         isSeen: false,
         createdAt: firebase.database.ServerValue.TIMESTAMP
     })
-    db.collection('users').doc(receiver).update({temp: arrayRemove(sender)})
-    db.collection('users').doc(receiver).update({temp: arrayUnion(sender)})
     // Save Total Unseen Message
     rdb.child(sender + "-" + receiver)
             .orderByChild('isSeen')
@@ -130,7 +131,12 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
                 let totalUnseen = Object.keys(data.val()).length;
                 db.collection('users').doc(sender).update({pending: arrayRemove({receiver: receiver, totalUnseen: totalUnseen - 1})});
                 db.collection('users').doc(sender).update({pending: arrayUnion({receiver, totalUnseen})});
-                db.collection('users').doc(receiver).update({lastMessage: sender});
+
+                db.collection('users').doc(receiver).update({lastMessage: arrayRemove(sender)});
+                db.collection('users').doc(receiver).update({lastMessage: arrayUnion(sender)});
+                db.collection('users').doc(sender).update({lastMessage: arrayRemove(receiver)});
+                db.collection('users').doc(sender).update({lastMessage: arrayUnion(receiver)});
+
             });
 }
 
