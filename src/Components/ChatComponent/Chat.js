@@ -142,10 +142,12 @@ const ControlComponent = ({text, setText, setEmojiPickerClick, sendMessage, emoj
                   placeholder = 'Enter Text...'
                   value = {text}              
                   onChange = {e => {
-                    setText(e.target.value)
-                      // console.log('ca2');
-                      // setText(e.target.value)
-                  }}>
+                    if (e.target.value[e.target.value.length - 1] !== '\n')
+                      setText(e.target.value)
+                    else 
+                      sendMessage()
+                  }}
+                  >
 
           </textarea>
           <span className="smile-icon" onClick={e=> setEmojiPickerClick(!emojiPickerClick)}><i className="fas fa-smile"></i></span>

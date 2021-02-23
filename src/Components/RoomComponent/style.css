@@ -279,9 +279,13 @@ textarea {
     border-left: 1px solid #00000029;
 }
 
+/* Emoji Css */
 .emoji-picker-react{
     width: 100% !important;
     height: 365px !important;
+}
+.active-category-indicator {
+    display: none;
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */

@@ -91,13 +91,18 @@ const getLastSender = async(friends, uid, dispatch) => {
     db.collection('users').doc(uid).get()
     .then(user => {
         let lastMessage = user.data().lastMessage;
-        let index = lastMessage.length;
-        lastMessage.map((item) => {
-            index--;
-            let oldIndex = friends.findIndex(friend => friend.uid === item);
-            let newArray = array_move(friends, oldIndex, index);
-            dispatch(chatSuccess(newArray));
-        })
+        if(lastMessage) {
+            let index = lastMessage.length;
+            lastMessage.map((item) => {
+                index--;
+                let oldIndex = friends.findIndex(friend => friend.uid === item);
+                let newArray = array_move(friends, oldIndex, index);
+                dispatch(chatSuccess(newArray));
+            })
+        } else {
+            dispatch(chatSuccess(friends));
+        }
+        
     })
 }
 
@@ -134,6 +139,7 @@ export const saveMessage = async({uuid, sender, receiver, message}) => {
 
                 db.collection('users').doc(receiver).update({lastMessage: arrayRemove(sender)});
                 db.collection('users').doc(receiver).update({lastMessage: arrayUnion(sender)});
+                
                 db.collection('users').doc(sender).update({lastMessage: arrayRemove(receiver)});
                 db.collection('users').doc(sender).update({lastMessage: arrayUnion(receiver)});
 
